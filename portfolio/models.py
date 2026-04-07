@@ -40,7 +40,7 @@ class UnidadeCurricular(models.Model):
     avaliacao = models.TextField(blank=True)
     ects = models.IntegerField()
     descricao = models.TextField(blank=True)
-    foto = models.ImageField(upload_to="ucs/", blank=True, null=True)  # novo
+    foto = models.ImageField(upload_to="ucs/", blank=True, null=True)
 
     licenciatura = models.ForeignKey(
         Licenciatura, on_delete=models.CASCADE, related_name="ucs"
@@ -61,9 +61,9 @@ class Tecnologia(models.Model):
     nome = models.CharField(max_length=100)
     descricao = models.TextField(blank=True)
     categoria = models.CharField(max_length=100)
-    logo = models.ImageField(upload_to="tecnologias/", blank=True, null=True)  # novo
-    url = models.URLField(blank=True)  # novo
-    interesse = models.IntegerField(null=True, blank=True)  # novo (ex: 1 a 5)
+    logo = models.ImageField(upload_to="tecnologias/", blank=True, null=True)
+    url = models.URLField(blank=True)
+    interesse = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.nome
@@ -79,8 +79,8 @@ class Projeto(models.Model):
     url_github = models.URLField(blank=True)
     data_inicio = models.DateField(null=True, blank=True)
     data_fim = models.DateField(null=True, blank=True)
-    foto = models.ImageField(upload_to="projetos/", blank=True, null=True)  # novo
-    video = models.URLField(blank=True)  # novo
+    foto = models.ImageField(upload_to="projetos/", blank=True, null=True)
+    video = models.URLField(blank=True)
 
     uc = models.ForeignKey(
         UnidadeCurricular,
@@ -110,10 +110,18 @@ class TFC(models.Model):
 
     titulo = models.CharField(max_length=300)
     autor = models.CharField(max_length=200, blank=True)
-    ano = models.IntegerField()
+    curso = models.CharField(max_length=200, blank=True)
     resumo = models.TextField(blank=True)
-    url_documento = models.URLField(blank=True)
-    classificacao = models.IntegerField(choices=CLASSIFICACAO_CHOICES, null=True, blank=True)  # novo
+    rating = models.IntegerField(choices=RATING_CHOICES, null=True, blank=True)
+    orientador = models.CharField(max_length=200, blank=True)
+    email = models.EmailField(blank=True)
+    palavras_chave = models.CharField(max_length=300, blank=True)
+    areas = models.CharField(max_length=300, blank=True)
+    imagem = models.ImageField(upload_to="tfcs/", blank=True, null=True)
+
+    tecnologias = models.ManyToManyField(
+        Tecnologia, blank=True, related_name="tfcs"
+    )
 
     licenciatura = models.ForeignKey(
         Licenciatura,
@@ -122,7 +130,7 @@ class TFC(models.Model):
     )
 
     def __str__(self):
-        return f"{self.titulo} ({self.ano})"
+        return self.titulo
 
     class Meta:
         verbose_name_plural = "TFCs"

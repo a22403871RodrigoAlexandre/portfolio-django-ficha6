@@ -30,14 +30,14 @@ class UnidadeCurricularAdmin(admin.ModelAdmin):
 
 @admin.register(Tecnologia)
 class TecnologiaAdmin(admin.ModelAdmin):
-    list_display = ("nome", "categoria", "url", "interesse")  # atualizado
+    list_display = ("nome", "categoria", "url", "interesse")
     search_fields = ("nome", "categoria")
-    list_filter = ("categoria", "interesse")  # atualizado
+    list_filter = ("categoria", "interesse")
 
 
 @admin.register(Projeto)
 class ProjetoAdmin(admin.ModelAdmin):
-    list_display = ("titulo", "uc", "data_inicio", "data_fim", "url_github", "video")  # atualizado
+    list_display = ("titulo", "uc", "data_inicio", "data_fim", "url_github", "video")
     search_fields = ("titulo", "descricao", "conceitos_aplicados")
     list_filter = ("uc__licenciatura",)
     filter_horizontal = ("tecnologias",)
@@ -46,9 +46,10 @@ class ProjetoAdmin(admin.ModelAdmin):
 
 @admin.register(TFC)
 class TFCAdmin(admin.ModelAdmin):
-    list_display = ("titulo", "autor", "ano", "licenciatura", "classificacao")  # atualizado
-    search_fields = ("titulo", "autor")
-    list_filter = ("ano", "licenciatura", "classificacao")  # atualizado
+    list_display = ("titulo", "autor", "curso", "orientador", "rating")
+    search_fields = ("titulo", "autor", "orientador", "palavras_chave", "areas")
+    list_filter = ("rating", "licenciatura")
+    filter_horizontal = ("tecnologias",)
     autocomplete_fields = ("licenciatura",)
 
 
