@@ -58,8 +58,9 @@ class UnidadeCurricular(models.Model):
 
 class Tecnologia(models.Model):
     nome = models.CharField(max_length=100)
-    categoria = models.CharField(max_length=100)
     descricao = models.TextField(blank=True)
+    categoria = models.CharField(max_length=100)
+    
 
     def __str__(self):
         return self.nome
