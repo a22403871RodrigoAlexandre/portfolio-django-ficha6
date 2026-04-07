@@ -9,7 +9,7 @@ from .models import (
 
 @admin.register(Licenciatura)
 class LicenciaturaAdmin(admin.ModelAdmin):
-    list_display = ("sigla", "nome", "instituicao", "ano_inicio", "ano_fim")
+    list_display = ("nome", "sigla", "instituicao", "ano_inicio", "ano_fim")
     search_fields = ("nome", "sigla", "instituicao")
 
 
@@ -21,16 +21,17 @@ class DocenteAdmin(admin.ModelAdmin):
 
 @admin.register(UnidadeCurricular)
 class UnidadeCurricularAdmin(admin.ModelAdmin):
-    list_display = ("sigla", "nome", "ano_curricular", "semestre", "ects", "licenciatura")
+    list_display = ("nome", "sigla", "licenciatura", "ano_curricular", "semestre", "ects")
     search_fields = ("nome", "sigla")
-    list_filter = ("ano_curricular", "semestre", "licenciatura")
+    list_filter = ("licenciatura", "ano_curricular", "semestre")
     filter_horizontal = ("docentes",)
+    autocomplete_fields = ("licenciatura",)
 
 
 @admin.register(Tecnologia)
 class TecnologiaAdmin(admin.ModelAdmin):
     list_display = ("nome", "categoria")
-    search_fields = ("nome",)
+    search_fields = ("nome", "categoria")
     list_filter = ("categoria",)
 
 
@@ -38,15 +39,17 @@ class TecnologiaAdmin(admin.ModelAdmin):
 class ProjetoAdmin(admin.ModelAdmin):
     list_display = ("titulo", "uc", "data_inicio", "data_fim", "url_github")
     search_fields = ("titulo", "descricao", "conceitos_aplicados")
-    list_filter = ("uc",)
+    list_filter = ("uc__licenciatura",)
     filter_horizontal = ("tecnologias",)
+    autocomplete_fields = ("uc",)
 
 
 @admin.register(TFC)
 class TFCAdmin(admin.ModelAdmin):
     list_display = ("titulo", "autor", "ano", "licenciatura")
-    search_fields = ("titulo", "autor", "resumo")
-    list_filter = ("ano",)
+    search_fields = ("titulo", "autor")
+    list_filter = ("ano", "licenciatura")
+    autocomplete_fields = ("licenciatura",)
 
 
 @admin.register(Competencia)
@@ -67,6 +70,6 @@ class FormacaoAdmin(admin.ModelAdmin):
 
 @admin.register(MakingOf)
 class MakingOfAdmin(admin.ModelAdmin):
-    list_display = ("titulo", "entidade", "data")
+    list_display = ("entidade", "titulo", "data")
     search_fields = ("titulo", "descricao_decisoes", "erros_encontrados")
     list_filter = ("entidade", "data")
