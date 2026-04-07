@@ -40,6 +40,7 @@ class UnidadeCurricular(models.Model):
     avaliacao = models.TextField(blank=True)
     ects = models.IntegerField()
     descricao = models.TextField(blank=True)
+    foto = models.ImageField(upload_to="ucs/", blank=True, null=True)  # novo
 
     licenciatura = models.ForeignKey(
         Licenciatura, on_delete=models.CASCADE, related_name="ucs"
@@ -60,7 +61,9 @@ class Tecnologia(models.Model):
     nome = models.CharField(max_length=100)
     descricao = models.TextField(blank=True)
     categoria = models.CharField(max_length=100)
-    
+    logo = models.ImageField(upload_to="tecnologias/", blank=True, null=True)  # novo
+    url = models.URLField(blank=True)  # novo
+    interesse = models.IntegerField(null=True, blank=True)  # novo (ex: 1 a 5)
 
     def __str__(self):
         return self.nome
@@ -76,6 +79,8 @@ class Projeto(models.Model):
     url_github = models.URLField(blank=True)
     data_inicio = models.DateField(null=True, blank=True)
     data_fim = models.DateField(null=True, blank=True)
+    foto = models.ImageField(upload_to="projetos/", blank=True, null=True)  # novo
+    video = models.URLField(blank=True)  # novo
 
     uc = models.ForeignKey(
         UnidadeCurricular,
@@ -95,11 +100,20 @@ class Projeto(models.Model):
 
 
 class TFC(models.Model):
+    CLASSIFICACAO_CHOICES = [
+        (1, "Sem Interesse"),
+        (2, "Pouco Interessante"),
+        (3, "Interessante"),
+        (4, "Muito Interessante"),
+        (5, "Perfeito"),
+    ]
+
     titulo = models.CharField(max_length=300)
     autor = models.CharField(max_length=200, blank=True)
     ano = models.IntegerField()
     resumo = models.TextField(blank=True)
     url_documento = models.URLField(blank=True)
+    classificacao = models.IntegerField(choices=CLASSIFICACAO_CHOICES, null=True, blank=True)  # novo
 
     licenciatura = models.ForeignKey(
         Licenciatura,
