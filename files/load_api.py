@@ -15,7 +15,7 @@ courses = [
   6634, #lcid
 ]
 
-course = 12      # Licenciatura em Informática de Gestão
+course = 12     # Licenciatura em Informática de Gestão
 
 for language in ['PT', 'ENG']:
 

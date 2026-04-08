@@ -37,9 +37,9 @@ class UnidadeCurricular(models.Model):
     sigla = models.CharField(max_length=20, blank=True)
     ano_curricular = models.IntegerField()
     semestre = models.IntegerField()
-    avaliacao = models.TextField(blank=True)
     ects = models.IntegerField()
-    descricao = models.TextField(blank=True)
+    descricao = models.TextField(blank=True) 
+    avaliacao = models.TextField(blank=True)
     foto = models.ImageField(upload_to="ucs/", blank=True, null=True)
 
     licenciatura = models.ForeignKey(
@@ -49,6 +49,13 @@ class UnidadeCurricular(models.Model):
     docentes = models.ManyToManyField(
         Docente, blank=True, related_name="ucs"
     )
+
+    # Novos atributos (vindos da API) - ex 5
+    objetivos = models.TextField(blank=True)
+    programa = models.TextField(blank=True)
+    metodologia = models.TextField(blank=True)
+    bibliografia = models.TextField(blank=True)
+    natureza = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return f"{self.sigla} – {self.nome}"
