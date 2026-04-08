@@ -17,7 +17,6 @@ if not os.path.exists(path):
 with open(path, encoding='utf-8') as f:
     dados = json.load(f)
 
-# 🎓 Garantir que existe uma licenciatura
 licenciatura, _ = Licenciatura.objects.get_or_create(
     nome="Engenharia Informática",
     defaults={
@@ -37,7 +36,7 @@ for item in dados:
         
         if not titulo:
             erros += 1
-            print("⚠️ TFC ignorado (sem título)")
+            print("TFC ignorado (sem título)")
             continue
 
         tfc, created = TFC.objects.get_or_create(
@@ -57,14 +56,14 @@ for item in dados:
 
         if created:
             count += 1
-            print(f"✔ Criado: {titulo}")
+            print(f"Criado: {titulo}")
         else:
-            print(f"⚠ Já existe: {titulo}")
+            print(f"Já existe: {titulo}")
 
     except Exception as e:
         erros += 1
-        print(f"❌ Erro ao processar '{item}': {e}")
+        print(f"Erro ao processar '{item}': {e}")
 
-print("\n📊 RESUMO:")
-print(f"✔ Novos TFCs: {count}")
-print(f"⚠ Ignorados/Erros: {erros}")
+print("\nRESUMO:")
+print(f"Novos TFCs: {count}")
+print(f"Ignorados/Erros: {erros}")
