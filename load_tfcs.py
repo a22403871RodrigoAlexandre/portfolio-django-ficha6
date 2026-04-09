@@ -6,7 +6,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 django.setup()
 
 from django.conf import settings
-from portfolio.models import TFC, Licenciatura
+from portfolio.models import TFC, Licenciatura, Docente
 
 path = os.path.join(settings.BASE_DIR, 'data', 'tfcs_2025.json')
 
@@ -19,51 +19,51 @@ with open(path, encoding='utf-8') as f:
 
 licenciatura, _ = Licenciatura.objects.get_or_create(
     nome="Engenharia Informática",
-    defaults={
-        "sigla": "EI",
-        "instituicao": "Universidade Lusófona",
-        "ano_inicio": 2022
-    }
+    defaults={"ano_inicio": 2022}
 )
 
 count = 0
-erros = 0
 
 for item in dados:
-    try:
-        titulo = item.get('titulo')
+    titulo = item.get('titulo')
 
-        
-        if not titulo:
-            erros += 1
-            print("TFC ignorado (sem título)")
-            continue
+    if not titulo:
+        continue
 
-        tfc, created = TFC.objects.get_or_create(
-            titulo=titulo,
-            defaults={
-                'autor': item.get('autor', ''),
-                'curso': item.get('curso', ''),
-                'resumo': item.get('resumo', ''),
-                'rating': item.get('rating'),
-                'orientador': item.get('orientador', ''),
-                'email': item.get('email', ''),
-                'palavras_chave': item.get('palavras_chave', ''),
-                'areas': item.get('areas', ''),
-                'licenciatura': licenciatura
-            }
-        )
+    tfc, created = TFC.objects.get_or_create(
+        titulo=titulo,
+        defaults={
+            'autor': item.get('autor'),
+            'curso': item.get('curso'),
+            'resumo': item.get('resumo'),
+            'rating': item.get('rating'),
+            'email': item.get('email'),
+            'palavras_chave': item.get('palavras_chave'),
+            'areas': item.get('areas'),
+            'licenciatura': licenciatura
+        }
+    )
 
-        if created:
-            count += 1
-            print(f"Criado: {titulo}")
-        else:
-            print(f"Já existe: {titulo}")
 
-    except Exception as e:
-        erros += 1
-        print(f"Erro ao processar '{item}': {e}")
 
-print("\nRESUMO:")
-print(f"Novos TFCs: {count}")
-print(f"Ignorados/Erros: {erros}")
+    orientador_str = item.get('orientador', '')
+
+
+    nomes = [n.strip() for n in orientador_str.split(';') if n.strip()] 
+
+
+    docentes_objs = []
+
+    for nome in nomes:
+        docente, _ = Docente.objects.get_or_create(nome=nome)
+        docentes_objs.append(docente)
+
+    tfc.orientador.set(docentes_objs)
+
+    if created:
+        count += 1
+        print(f"Criado: {titulo}")
+    else:
+        print(f"Já existe: {titulo}")
+
+print(f"\nTotal de novos TFCs: {count}")
