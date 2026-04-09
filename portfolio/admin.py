@@ -37,7 +37,7 @@ class TecnologiaAdmin(admin.ModelAdmin):
 
 @admin.register(Projeto)
 class ProjetoAdmin(admin.ModelAdmin):
-    list_display = ("titulo", "uc", "data_inicio", "data_fim", "url_github", "video")
+    list_display = ("titulo", "uc", "data_inicio", "data_fim", "url_github")
     search_fields = ("titulo", "descricao", "conceitos_aplicados")
     list_filter = ("uc__licenciatura",)
     filter_horizontal = ("tecnologias",)

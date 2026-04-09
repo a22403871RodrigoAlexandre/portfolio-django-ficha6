@@ -87,7 +87,7 @@ class Projeto(models.Model):
     data_inicio = models.DateField(null=True, blank=True)
     data_fim = models.DateField(null=True, blank=True)
     foto = models.ImageField(upload_to="projetos/", blank=True, null=True)
-    video = models.URLField(blank=True)
+    video = models.URLField(blank=True, null=True)
 
     uc = models.ForeignKey(
         UnidadeCurricular,
