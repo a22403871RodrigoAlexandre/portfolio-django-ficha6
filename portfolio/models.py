@@ -40,7 +40,7 @@ class UnidadeCurricular(models.Model):
     ects = models.IntegerField()
     descricao = models.TextField(blank=True)
     codigo_curso = models.IntegerField(null=True, blank=True)
-    ssssssssssssssssssssssssssssssssssssssscodigo_uc = models.IntegerField(null=True, blank=True)
+    codigo_uc = models.IntegerField(null=True, blank=True)
 
     licenciatura = models.ForeignKey(
         Licenciatura, on_delete=models.CASCADE, related_name="ucs"
