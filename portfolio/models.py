@@ -38,9 +38,9 @@ class UnidadeCurricular(models.Model):
     ano_curricular = models.IntegerField()
     semestre = models.IntegerField()
     ects = models.IntegerField()
-    descricao = models.TextField(blank=True) 
-    avaliacao = models.TextField(blank=True)
-    foto = models.ImageField(upload_to="ucs/", blank=True, null=True)
+    descricao = models.TextField(blank=True)
+    codigo_curso = models.IntegerField(null=True, blank=True)
+    ssssssssssssssssssssssssssssssssssssssscodigo_uc = models.IntegerField(null=True, blank=True)
 
     licenciatura = models.ForeignKey(
         Licenciatura, on_delete=models.CASCADE, related_name="ucs"
