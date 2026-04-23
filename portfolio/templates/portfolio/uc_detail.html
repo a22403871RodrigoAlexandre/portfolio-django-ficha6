@@ -1,0 +1,124 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>{{ uc.sigla }}<span>.</span></h2>
+        <p>{{ uc.nome }}</p>
+    </div>
+    <span class="page-count">{{ uc.ects }} ECTS</span>
+</div>
+
+<section class="grid">
+
+    <article class="card">
+        <header>
+            <h3>Informação Geral</h3>
+            <p>{{ uc.licenciatura.nome }}</p>
+        </header>
+        <section>
+            <h4>Detalhes</h4>
+            <p>
+                <span class="badge">Ano {{ uc.ano_curricular }}</span>
+                <span class="badge">Semestre {{ uc.semestre }}</span>
+                <span class="badge">{{ uc.ects }} ECTS</span>
+            </p>
+        </section>
+    </article>
+
+    <article class="card">
+        <header>
+            <h3>Docentes</h3>
+            <p>Professores associados à UC</p>
+        </header>
+        <section>
+            <ul class="plain-list">
+                {% for d in uc.docentes.all %}
+                    <li>{{ d.nome }}</li>
+                {% empty %}
+                    <li>Sem docentes</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </article>
+
+    {% if uc.apresentacao %}
+    <article class="card">
+        <header>
+            <h3>Apresentação</h3>
+        </header>
+        <section>
+            <p>{{ uc.apresentacao }}</p>
+        </section>
+    </article>
+    {% endif %}
+
+    {% if uc.objetivos %}
+    <article class="card">
+        <header>
+            <h3>Objetivos</h3>
+        </header>
+        <section>
+            <p>{{ uc.objetivos }}</p>
+        </section>
+    </article>
+    {% endif %}
+
+    {% if uc.programa %}
+    <article class="card">
+        <header>
+            <h3>Programa</h3>
+        </header>
+        <section>
+            <p>{{ uc.programa }}</p>
+        </section>
+    </article>
+    {% endif %}
+
+    {% if uc.metodologia %}
+    <article class="card">
+        <header>
+            <h3>Metodologia</h3>
+        </header>
+        <section>
+            <p>{{ uc.metodologia }}</p>
+        </section>
+    </article>
+    {% endif %}
+
+    {% if uc.bibliografia %}
+    <article class="card">
+        <header>
+            <h3>Bibliografia</h3>
+        </header>
+        <section>
+            <p>{{ uc.bibliografia }}</p>
+        </section>
+    </article>
+    {% endif %}
+
+    {% if uc.projetos.all %}
+    <article class="card">
+        <header>
+            <h3>Projetos</h3>
+            <p>Projetos realizados nesta UC</p>
+        </header>
+        <section>
+            <ul class="plain-list">
+                {% for projeto in uc.projetos.all %}
+                    <li>{{ projeto.titulo }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </article>
+    {% endif %}
+
+</section>
+
+<br>
+<a href="{% url 'ucs' %}" class="badge" style="text-decoration: none;">
+    ← Voltar às UCs
+</a>
+
+{% endblock %}

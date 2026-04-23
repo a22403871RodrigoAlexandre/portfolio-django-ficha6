@@ -1,0 +1,65 @@
+{% extends "portfolio/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>Making Of<span>.</span></h2>
+        <p>Documentação do desenvolvimento do projeto.</p>
+    </div>
+
+    <span class="page-count">Relatório</span>
+</div>
+
+<section class="grid">
+
+    <article class="card">
+        <header>
+            <h3>Sobre o documento</h3>
+            <p>Relatório completo do projeto</p>
+        </header>
+
+        <section>
+            <p>
+                Este documento contém todo o processo de desenvolvimento do projeto,
+                incluindo decisões tomadas, estrutura da aplicação, dificuldades e soluções.
+            </p>
+        </section>
+    </article>
+
+    <article class="card">
+        <header>
+            <h3>Aceder ao Making Of</h3>
+            <p>Formato Word</p>
+        </header>
+
+        <section>
+
+            <p>
+                Podes abrir ou descarregar o documento completo através do botão abaixo.
+            </p>
+
+            <br>
+
+            <a href="{% static 'portfolio/makingof.docx' %}"
+               target="_blank"
+               style="
+                   display: inline-block;
+                   padding: 0.6rem 1.2rem;
+                   border-radius: 8px;
+                   background: linear-gradient(135deg, #7c6aff, #06b6d4);
+                   color: white;
+                   text-decoration: none;
+                   font-size: 0.85rem;
+                   font-weight: 600;
+               ">
+               📄 Abrir Documento
+            </a>
+
+        </section>
+    </article>
+
+</section>
+
+{% endblock %}

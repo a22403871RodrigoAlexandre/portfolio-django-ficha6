@@ -1,5 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Licenciatura, Docente, UnidadeCurricular, Tecnologia, Projeto, TFC, Competencia, Formacao
+from .forms import ProjetoForm
+from django.shortcuts import redirect
+
+
+def home_view(request):
+    return render(request, 'portfolio/home.html')
 
 def licenciaturas_view(request):
     licenciaturas = Licenciatura.objects.prefetch_related('ucs', 'tfcs').all()
@@ -32,3 +38,54 @@ def competencias_view(request):
 def formacoes_view(request):
     formacoes = Formacao.objects.prefetch_related('tecnologias').all()
     return render(request, 'portfolio/formacoes.html', {'formacoes': formacoes})
+
+def uc_detail_view(request, uc_id):
+    uc = get_object_or_404(UnidadeCurricular, id=uc_id)
+
+    return render(request, 'portfolio/uc_detail.html', {
+        'uc': uc
+    })
+
+def makingof_view(request):
+    return render(request, 'portfolio/makingof.html')
+
+def projeto_create(request):
+    if request.method == 'POST':
+        form = ProjetoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('projetos')
+    else:
+        form = ProjetoForm()
+
+    return render(request, 'portfolio/projeto_form.html', {'form': form})
+
+
+def projeto_update(request, pk):
+    projeto = get_object_or_404(Projeto, pk=pk)
+
+    if request.method == 'POST':
+        form = ProjetoForm(request.POST, request.FILES, instance=projeto)
+        if form.is_valid():
+            form.save()
+            return redirect('projetos')
+    else:
+        form = ProjetoForm(instance=projeto)
+
+    return render(request, 'portfolio/projeto_form.html', {'form': form})
+
+def projeto_delete(request, pk):
+    projeto = get_object_or_404(Projeto, pk=pk)
+
+    if request.method == 'POST':
+        projeto.delete()
+        return redirect('projetos')
+
+    return render(request, 'portfolio/projeto_confirm_delete.html', {'projeto': projeto})
+
+def projeto_detail_view(request, projeto_id):
+    projeto = get_object_or_404(Projeto, id=projeto_id)
+
+    return render(request, 'portfolio/projeto_detail.html', {
+        'projeto': projeto
+    })

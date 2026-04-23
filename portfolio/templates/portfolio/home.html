@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            background:
+                radial-gradient(circle at top, rgba(59,130,246,0.2), transparent),
+                linear-gradient(135deg, #050816, #020617);
+            color: white;
+            text-align: center;
+        }
+
+        .hero {
+            max-width: 600px;
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 span {
+            color: #06b6d4;
+        }
+
+        p {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.6rem;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="hero">
+    <h1>Bem-vindo ao meu <span>Portfolio</span></h1>
+
+    <p>
+        Aqui podes explorar o meu percurso académico, projetos e competências.
+    </p>
+
+    <a href="{% url 'licenciaturas' %}" class="btn">
+        Entrar →
+    </a>
+</div>
+
+</body>
+</html>

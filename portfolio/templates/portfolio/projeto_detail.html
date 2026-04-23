@@ -1,0 +1,89 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>{{ projeto.titulo }}<span>.</span></h2>
+        <p>
+            {% if projeto.uc %}
+                {{ projeto.uc.sigla }} – {{ projeto.uc.nome }}
+            {% else %}
+                Projeto académico
+            {% endif %}
+        </p>
+    </div>
+
+    <span class="page-count">Projeto</span>
+</div>
+
+<section class="grid">
+
+    <article class="card">
+        <header>
+            {% if projeto.foto %}
+                <img src="{{ projeto.foto.url }}" alt="{{ projeto.titulo }}">
+            {% endif %}
+            <h3>Informação Geral</h3>
+            <p>Dados principais do projeto</p>
+        </header>
+
+        <section>
+            {% if projeto.uc %}
+                <h4>Unidade Curricular</h4>
+                <p>{{ projeto.uc.sigla }} – {{ projeto.uc.nome }}</p>
+                <br>
+            {% endif %}
+
+            <h4>Descrição</h4>
+            {% if projeto.descricao %}
+                <p>{{ projeto.descricao }}</p>
+            {% else %}
+                <p>Sem descrição disponível.</p>
+            {% endif %}
+        </section>
+    </article>
+
+    <article class="card">
+        <header>
+            <h3>Tecnologias</h3>
+            <p>Ferramentas usadas no projeto</p>
+        </header>
+
+        <section>
+            <ul class="tag-list">
+                {% for tec in projeto.tecnologias.all %}
+                    <li>{{ tec.nome }}</li>
+                {% empty %}
+                    <li>Sem tecnologias</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </article>
+
+    <article class="card">
+        <header>
+            <h3>Ações</h3>
+            <p>Gestão do projeto</p>
+        </header>
+
+        <section>
+            <a href="{% url 'projeto_update' projeto.id %}" class="badge" style="text-decoration:none;">
+                ✏️ Editar
+            </a>
+
+            <a href="{% url 'projeto_delete' projeto.id %}" class="badge" style="text-decoration:none;">
+                🗑️ Apagar
+            </a>
+        </section>
+    </article>
+
+</section>
+
+<br>
+
+<a href="{% url 'projetos' %}" class="badge" style="text-decoration: none;">
+    ← Voltar aos Projetos
+</a>
+
+{% endblock %}

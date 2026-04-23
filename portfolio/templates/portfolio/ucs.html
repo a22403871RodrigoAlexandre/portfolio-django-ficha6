@@ -14,7 +14,11 @@
     {% for uc in ucs %}
     <article class="card">
         <header>
-            <h3>{{ uc.sigla }} – {{ uc.nome }}</h3>
+            <h3>
+    <a href="{% url 'uc_detail' uc.id %}" style="color: inherit; text-decoration: none;">
+        {{ uc.sigla }} – {{ uc.nome }}
+    </a>
+</h3>
             <p>{{ uc.licenciatura.sigla }}</p>
         </header>
 

@@ -1,4 +1,5 @@
 <!-- portfolio/templates/portfolio/base.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -17,31 +18,34 @@
         }
 
         :root {
-            --bg: #070711;
-            --bg2: #0e0e1f;
-            --card: rgba(255, 255, 255, 0.06);
-            --card-hover: rgba(255, 255, 255, 0.10);
-            --border: rgba(255, 255, 255, 0.12);
-            --text: #f4f4ff;
-            --muted: #9b9bb5;
-            --accent: #8b5cf6;
-            --accent2: #06b6d4;
-            --danger: #fb7185;
-        }
+    --bg: #050816;
+    --surface: rgba(15, 23, 42, 0.7);
+    --border: rgba(255, 255, 255, 0.08);
+
+    --accent: #3b82f6;     /* azul */
+    --accent2: #06b6d4;    /* cyan */
+
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+
+    --card: rgba(255, 255, 255, 0.05);
+}
 
         html {
             scroll-behavior: smooth;
         }
 
         body {
-            min-height: 100vh;
-            font-family: 'Inter', sans-serif;
-            background:
-                radial-gradient(circle at top left, rgba(139, 92, 246, 0.25), transparent 35%),
-                radial-gradient(circle at bottom right, rgba(6, 182, 212, 0.18), transparent 35%),
-                linear-gradient(135deg, var(--bg), var(--bg2));
-            color: var(--text);
-        }
+    background:
+        radial-gradient(circle at 20% 20%, rgba(59,130,246,0.15), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(6,182,212,0.15), transparent 40%),
+        linear-gradient(135deg, #050816, #020617);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+}
 
         body::before {
             content: "";
@@ -57,20 +61,16 @@
 
         /* SIDEBAR */
         .sidebar {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            bottom: 20px;
-            width: 250px;
-            padding: 1.6rem;
-            background: rgba(15, 15, 30, 0.75);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            backdrop-filter: blur(18px);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.35);
-            overflow-y: auto;
-            z-index: 10;
-        }
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 220px;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    border-right: 1px solid var(--border);
+    padding: 2rem 1.5rem;
+}
 
         .sidebar-logo {
             display: inline-block;
@@ -353,7 +353,7 @@
 
 <aside class="sidebar">
     <a href="{% url 'licenciaturas' %}" class="sidebar-logo">
-        port<span>.</span>folio
+        Portfolio<span>.</span>
     </a>
 
     <p class="sidebar-sub">Django App</p>
@@ -370,12 +370,18 @@
         <a href="{% url 'projetos' %}"><span class="dot"></span>Projetos</a>
         <a href="{% url 'tfcs' %}"><span class="dot"></span>TFCs</a>
     </nav>
-
+    
     <p class="nav-section">Skills</p>
     <nav>
         <a href="{% url 'tecnologias' %}"><span class="dot"></span>Tecnologias</a>
         <a href="{% url 'competencias' %}"><span class="dot"></span>Competências</a>
         <a href="{% url 'formacoes' %}"><span class="dot"></span>Formações</a>
+    </nav>
+    <p class="nav-section">Documentação</p>
+    <nav>
+    <a href="{% url 'makingof' %}">
+        <span class="dot"></span>Making Of
+    </a>
     </nav>
 </aside>
 
