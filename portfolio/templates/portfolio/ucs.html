@@ -1,0 +1,50 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>Unidades Curriculares<span>.</span></h2>
+        <p>Disciplinas frequentadas durante a licenciatura.</p>
+    </div>
+    <span class="page-count">{{ ucs|length }} UCs</span>
+</div>
+
+<section class="grid">
+    {% for uc in ucs %}
+    <article class="card">
+        <header>
+            <h3>{{ uc.sigla }} – {{ uc.nome }}</h3>
+            <p>{{ uc.licenciatura.sigla }}</p>
+        </header>
+
+        <section>
+            <h4>Informação</h4>
+            <p>
+                <span class="badge">Ano {{ uc.ano_curricular }}</span>
+                <span class="badge">Semestre {{ uc.semestre }}</span>
+                <span class="badge">{{ uc.ects }} ECTS</span>
+            </p>
+
+            <br>
+            <h4>Docentes</h4>
+            <ul class="plain-list">
+                {% for d in uc.docentes.all %}
+                    <li>{{ d.nome }}</li>
+                {% empty %}
+                    <li>Sem docentes</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </article>
+    {% empty %}
+    <article class="card">
+        <header>
+            <h3>Sem dados</h3>
+            <p>Ainda não existem unidades curriculares registadas.</p>
+        </header>
+    </article>
+    {% endfor %}
+</section>
+
+{% endblock %}

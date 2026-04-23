@@ -1,0 +1,45 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>Docentes<span>.</span></h2>
+        <p>Docentes associados às unidades curriculares.</p>
+    </div>
+    <span class="page-count">{{ docentes|length }} docentes</span>
+</div>
+
+<section class="grid">
+    {% for docente in docentes %}
+    <article class="card">
+        <header>
+            {% if docente.foto %}
+                <img src="{{ docente.foto.url }}" alt="{{ docente.nome }}">
+            {% endif %}
+            <h3>{{ docente.nome }}</h3>
+            <p>{{ docente.email }}</p>
+        </header>
+
+        <section>
+            <h4>Unidades Curriculares</h4>
+            <ul class="plain-list">
+                {% for uc in docente.ucs.all %}
+                    <li>{{ uc.sigla }} – {{ uc.nome }}</li>
+                {% empty %}
+                    <li>Sem UCs atribuídas</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </article>
+    {% empty %}
+    <article class="card">
+        <header>
+            <h3>Sem dados</h3>
+            <p>Ainda não existem docentes registados.</p>
+        </header>
+    </article>
+    {% endfor %}
+</section>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>Tecnologias<span>.</span></h2>
+        <p>Ferramentas, linguagens e tecnologias utilizadas.</p>
+    </div>
+    <span class="page-count">{{ tecnologias|length }} tecnologias</span>
+</div>
+
+<section class="grid">
+    {% for tec in tecnologias %}
+    <article class="card">
+        <header>
+            {% if tec.logo %}
+                <img src="{{ tec.logo.url }}" alt="{{ tec.nome }}">
+            {% endif %}
+            <h3>{{ tec.nome }}</h3>
+            <p>{{ tec.categoria }}</p>
+        </header>
+
+        <section>
+            <h4>Descrição</h4>
+            {% if tec.descricao %}
+                <p>{{ tec.descricao }}</p>
+            {% else %}
+                <p>Sem descrição.</p>
+            {% endif %}
+        </section>
+    </article>
+    {% empty %}
+    <article class="card">
+        <header>
+            <h3>Sem dados</h3>
+            <p>Ainda não existem tecnologias registadas.</p>
+        </header>
+    </article>
+    {% endfor %}
+</section>
+
+{% endblock %}

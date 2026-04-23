@@ -1,0 +1,50 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>Projetos<span>.</span></h2>
+        <p>Projetos desenvolvidos ao longo do percurso académico.</p>
+    </div>
+    <span class="page-count">{{ projetos|length }} projetos</span>
+</div>
+
+<section class="grid">
+    {% for projeto in projetos %}
+    <article class="card">
+        <header>
+            {% if projeto.foto %}
+                <img src="{{ projeto.foto.url }}" alt="{{ projeto.titulo }}">
+            {% endif %}
+            <h3>{{ projeto.titulo }}</h3>
+            <p>UC: {{ projeto.uc.sigla }} – {{ projeto.uc.nome }}</p>
+        </header>
+
+        <section>
+            {% if projeto.descricao %}
+                <p>{{ projeto.descricao }}</p>
+                <br>
+            {% endif %}
+
+            <h4>Tecnologias</h4>
+            <ul class="tag-list">
+                {% for tec in projeto.tecnologias.all %}
+                    <li>{{ tec.nome }}</li>
+                {% empty %}
+                    <li>Sem tecnologias</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </article>
+    {% empty %}
+    <article class="card">
+        <header>
+            <h3>Sem dados</h3>
+            <p>Ainda não existem projetos registados.</p>
+        </header>
+    </article>
+    {% endfor %}
+</section>
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>Licenciaturas<span>.</span></h2>
+        <p>Percurso académico e cursos frequentados.</p>
+    </div>
+
+    <span class="page-count">{{ licenciaturas|length }} cursos</span>
+</div>
+
+<section class="grid">
+    {% for lic in licenciaturas %}
+    <article class="card">
+
+        <header>
+            <h3>{{ lic.sigla }} – {{ lic.nome }}</h3>
+            <p>{{ lic.instituicao }}</p>
+        </header>
+
+        <section>
+            <h4>Detalhes</h4>
+
+            <p>
+                <span class="badge">{{ lic.ano_inicio }}</span>
+                →
+                <span class="badge">
+                    {% if lic.ano_fim %}
+                        {{ lic.ano_fim }}
+                    {% else %}
+                        Presente
+                    {% endif %}
+                </span>
+            </p>
+
+            {% if lic.descricao %}
+                <br>
+                <p>{{ lic.descricao }}</p>
+            {% endif %}
+        </section>
+
+    </article>
+    {% empty %}
+        <article class="card">
+            <header>
+                <h3>Sem dados</h3>
+                <p>Ainda não tens licenciaturas inseridas.</p>
+            </header>
+        </article>
+    {% endfor %}
+</section>
+
+{% endblock %}
