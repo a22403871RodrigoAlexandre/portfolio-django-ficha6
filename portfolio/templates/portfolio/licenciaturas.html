@@ -5,18 +5,31 @@
 <div class="page-header">
     <div>
         <h2>Licenciaturas<span>.</span></h2>
-        
+        <p>Percurso académico e cursos frequentados.</p>
     </div>
 
     <span class="page-count">{{ licenciaturas|length }} cursos</span>
 </div>
+
+<!-- BOTÃO CRIAR -->
+<a href="{% url 'licenciatura_create' %}" 
+   class="badge" 
+   style="text-decoration:none; margin-bottom: 1rem; display:inline-block;">
+    + Nova Licenciatura
+</a>
 
 <section class="grid">
     {% for lic in licenciaturas %}
     <article class="card">
 
         <header>
-            <h3>{{ lic.sigla }} – {{ lic.nome }}</h3>
+            <h3>
+                <a href="{% url 'licenciatura_detail' lic.id %}" 
+                   style="color: inherit; text-decoration: none;">
+                    {{ lic.sigla }} – {{ lic.nome }}
+                </a>
+            </h3>
+
             <p>{{ lic.instituicao }}</p>
         </header>
 
@@ -37,18 +50,43 @@
 
             {% if lic.descricao %}
                 <br>
-                <p>{{ lic.descricao }}</p>
+                <p>{{ lic.descricao|truncatechars:120 }}</p>
             {% endif %}
+
+            <br>
+
+            <!-- BOTÃO DETALHES -->
+            <a href="{% url 'licenciatura_detail' lic.id %}" 
+               class="badge" 
+               style="text-decoration: none;">
+                🔍 Ver detalhes
+            </a>
+
+            <!-- EDITAR -->
+            <a href="{% url 'licenciatura_update' lic.id %}" 
+               class="badge" 
+               style="text-decoration: none;">
+                ✏️ Editar
+            </a>
+
+            <!-- APAGAR -->
+            <a href="{% url 'licenciatura_delete' lic.id %}" 
+               class="badge" 
+               style="text-decoration: none;">
+                🗑️ Apagar
+            </a>
+
         </section>
 
     </article>
+
     {% empty %}
-        <article class="card">
-            <header>
-                <h3>Sem dados</h3>
-                <p>Ainda não tens licenciaturas inseridas.</p>
-            </header>
-        </article>
+    <article class="card">
+        <header>
+            <h3>Sem dados</h3>
+            <p>Ainda não tens licenciaturas inseridas.</p>
+        </header>
+    </article>
     {% endfor %}
 </section>
 

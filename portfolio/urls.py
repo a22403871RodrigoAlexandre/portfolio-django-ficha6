@@ -17,4 +17,8 @@ urlpatterns = [
     path('projetos/create/', views.projeto_create, name='projeto_create'),
     path('projetos/<int:pk>/edit/', views.projeto_update, name='projeto_update'),
     path('projetos/<int:pk>/delete/', views.projeto_delete, name='projeto_delete'),
+    path('licenciaturas/<int:lic_id>/', views.licenciatura_detail_view, name='licenciatura_detail'),
+    path('licenciaturas/create/', views.licenciatura_create, name='licenciatura_create'),
+    path('licenciaturas/<int:pk>/edit/', views.licenciatura_update, name='licenciatura_update'),
+    path('licenciaturas/<int:pk>/delete/', views.licenciatura_delete, name='licenciatura_delete'),
 ]

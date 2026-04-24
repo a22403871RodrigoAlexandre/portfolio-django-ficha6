@@ -1,0 +1,89 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>{{ lic.sigla }}<span>.</span></h2>
+        <p>{{ lic.nome }}</p>
+    </div>
+
+    <span class="page-count">
+        {{ lic.ano_inicio }} 
+        {% if lic.ano_fim %}
+            - {{ lic.ano_fim }}
+        {% else %}
+            - Presente
+        {% endif %}
+    </span>
+</div>
+
+<section class="grid">
+
+    <article class="card">
+        <header>
+            <h3>Informação Geral</h3>
+            <p>{{ lic.instituicao }}</p>
+        </header>
+
+        <section>
+            <h4>Duração</h4>
+            <p>
+                <span class="badge">{{ lic.ano_inicio }}</span>
+                →
+                <span class="badge">
+                    {% if lic.ano_fim %}
+                        {{ lic.ano_fim }}
+                    {% else %}
+                        Presente
+                    {% endif %}
+                </span>
+            </p>
+        </section>
+    </article>
+
+    <article class="card">
+        <header>
+            <h3>Descrição</h3>
+            <p>Sobre a licenciatura</p>
+        </header>
+
+        <section>
+            {% if lic.descricao %}
+                <p>{{ lic.descricao }}</p>
+            {% else %}
+                <p>Sem descrição disponível.</p>
+            {% endif %}
+        </section>
+    </article>
+
+    <article class="card">
+        <header>
+            <h3>Unidades Curriculares</h3>
+            <p>Disciplinas desta licenciatura</p>
+        </header>
+
+        <section>
+            <ul class="plain-list">
+                {% for uc in lic.ucs.all %}
+                    <li>
+                        <a href="{% url 'uc_detail' uc.id %}" style="text-decoration:none; color:inherit;">
+                            {{ uc.nome }}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li>Sem UCs</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </article>
+
+</section>
+
+<br>
+
+<a href="{% url 'licenciaturas' %}" class="badge" style="text-decoration: none;">
+    ← Voltar às Licenciaturas
+</a>
+
+{% endblock %}

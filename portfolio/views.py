@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Licenciatura, Docente, UnidadeCurricular, Tecnologia, Projeto, TFC, Competencia, Formacao
 from .forms import ProjetoForm
+from .forms import LicenciaturaForm
 from django.shortcuts import redirect
 
 
@@ -89,3 +90,46 @@ def projeto_detail_view(request, projeto_id):
     return render(request, 'portfolio/projeto_detail.html', {
         'projeto': projeto
     })
+
+def licenciatura_detail_view(request, lic_id):
+    lic = get_object_or_404(Licenciatura, id=lic_id)
+
+    return render(request, 'portfolio/licenciatura_detail.html', {
+        'lic': lic
+    })
+
+
+def licenciatura_create(request):
+    if request.method == 'POST':
+        form = LicenciaturaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('licenciaturas')
+    else:
+        form = LicenciaturaForm()
+
+    return render(request, 'portfolio/licenciatura_form.html', {'form': form})
+
+
+def licenciatura_update(request, pk):
+    lic = get_object_or_404(Licenciatura, pk=pk)
+
+    if request.method == 'POST':
+        form = LicenciaturaForm(request.POST, request.FILES, instance=lic)
+        if form.is_valid():
+            form.save()
+            return redirect('licenciaturas')
+    else:
+        form = LicenciaturaForm(instance=lic)
+
+    return render(request, 'portfolio/licenciatura_form.html', {'form': form})
+
+
+def licenciatura_delete(request, pk):
+    lic = get_object_or_404(Licenciatura, pk=pk)
+
+    if request.method == 'POST':
+        lic.delete()
+        return redirect('licenciaturas')
+
+    return render(request, 'portfolio/licenciatura_confirm_delete.html', {'lic': lic})

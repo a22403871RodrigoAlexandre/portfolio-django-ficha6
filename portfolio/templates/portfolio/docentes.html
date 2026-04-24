@@ -9,10 +9,27 @@
     </div>
     <span class="page-count">{{ docentes|length }} docentes</span>
 </div>
+<div style="margin-bottom: 1.5rem;">
+    <input 
+        type="text" 
+        id="pesquisaDocentes" 
+        placeholder="Pesquisar docentes..."
+        style="
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            font-size: 0.95rem;
+            outline: none;
+        "
+    >
+</div>
 
 <section class="grid">
     {% for docente in docentes %}
-    <article class="card">
+    <article class="card docente-card">
         <header>
             {% if docente.foto %}
                 <img src="{{ docente.foto.url }}" alt="{{ docente.nome }}">
@@ -41,5 +58,24 @@
     </article>
     {% endfor %}
 </section>
+<script>
+    const input = document.getElementById('pesquisaDocentes');
+    const cards = document.querySelectorAll('.docente-card');
+
+    input.addEventListener('keyup', function () {
+        const pesquisa = input.value.toLowerCase();
+
+        cards.forEach(function (card) {
+            const texto = card.innerText.toLowerCase();
+
+            if (texto.includes(pesquisa)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+</script>
+
 
 {% endblock %}

@@ -1,0 +1,30 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>Apagar Licenciatura<span>.</span></h2>
+        <p>Confirmação de remoção.</p>
+    </div>
+</div>
+
+<article class="card" style="padding: 1.5rem;">
+    <p>Tem a certeza que quer apagar "{{ lic.sigla }} – {{ lic.nome }}"?</p>
+
+    <br>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <button type="submit" class="badge" style="cursor:pointer;">
+            Sim, apagar
+        </button>
+
+        <a href="{% url 'licenciaturas' %}" class="badge" style="text-decoration:none;">
+            Cancelar
+        </a>
+    </form>
+</article>
+
+{% endblock %}
