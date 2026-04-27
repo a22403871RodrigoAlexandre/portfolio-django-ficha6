@@ -21,4 +21,18 @@ urlpatterns = [
     path('licenciaturas/create/', views.licenciatura_create, name='licenciatura_create'),
     path('licenciaturas/<int:pk>/edit/', views.licenciatura_update, name='licenciatura_update'),
     path('licenciaturas/<int:pk>/delete/', views.licenciatura_delete, name='licenciatura_delete'),
+    
+    path('tecnologias/create/', views.tecnologia_create, name='tecnologia_create'),
+    path('tecnologias/<int:pk>/edit/', views.tecnologia_update, name='tecnologia_update'),
+    path('tecnologias/<int:pk>/delete/', views.tecnologia_delete, name='tecnologia_delete'),
+
+    path('competencias/create/', views.competencia_create, name='competencia_create'),
+    path('competencias/<int:pk>/edit/', views.competencia_update, name='competencia_update'),
+    path('competencias/<int:pk>/delete/', views.competencia_delete, name='competencia_delete'),
+
+    path('formacoes/create/', views.formacao_create, name='formacao_create'),
+    path('formacoes/<int:pk>/edit/', views.formacao_update, name='formacao_update'),
+    path('formacoes/<int:pk>/delete/', views.formacao_delete, name='formacao_delete'),
+    path('docentes/<int:docente_id>/', views.docente_detail_view, name='docente_detail'),
+    path('sobre/', views.sobre_view, name='sobre'),
 ]

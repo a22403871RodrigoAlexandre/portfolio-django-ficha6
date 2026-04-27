@@ -6,60 +6,56 @@
 <div class="page-header">
     <div>
         <h2>Making Of<span>.</span></h2>
-        <p>Documentação do desenvolvimento do projeto.</p>
+        <p>Documentação e reflexão sobre o desenvolvimento do projeto.</p>
     </div>
 
-    <span class="page-count">Relatório</span>
+    <span class="page-count">Documento</span>
 </div>
 
 <section class="grid">
 
+    <!-- CARD DESCRIÇÃO -->
     <article class="card">
         <header>
-            <h3>Sobre o documento</h3>
-            <p>Relatório completo do projeto</p>
+            <h3>Sobre o Projeto</h3>
+            <p>Contexto e desenvolvimento</p>
         </header>
 
         <section>
             <p>
-                Este documento contém todo o processo de desenvolvimento do projeto,
-                incluindo decisões tomadas, estrutura da aplicação, dificuldades e soluções.
+                Nesta secção apresento o making of do projeto, onde explico todo o processo de desenvolvimento,
+                dificuldades encontradas, decisões tomadas e aprendizagens adquiridas ao longo do trabalho.
             </p>
         </section>
     </article>
 
+    <!-- CARD DOCUMENTO -->
     <article class="card">
         <header>
-            <h3>Aceder ao Making Of</h3>
-            <p>Formato Word</p>
+            <h3>Documento</h3>
+            <p>Relatório completo em Word</p>
         </header>
 
         <section>
-
-            <p>
-                Podes abrir ou descarregar o documento completo através do botão abaixo.
-            </p>
+            <p>Podes abrir o documento completo aqui:</p>
 
             <br>
 
-            <a href="{% static 'portfolio/makingof.docx' %}"
-               target="_blank"
-               style="
-                   display: inline-block;
-                   padding: 0.6rem 1.2rem;
-                   border-radius: 8px;
-                   background: linear-gradient(135deg, #7c6aff, #06b6d4);
-                   color: white;
-                   text-decoration: none;
-                   font-size: 0.85rem;
-                   font-weight: 600;
-               ">
-               📄 Abrir Documento
-            </a>
-
+            <a href="https://docs.google.com/document/d/1vzbsC3ORNFG_yKKG9Iw2elbVQ1W6EC2c4RyMDn2LiY0/edit?usp=sharing" 
+   target="_blank" 
+   class="badge" 
+   style="text-decoration:none;">
+    📄 Abrir Making Of
+</a>
         </section>
     </article>
 
 </section>
+
+<br>
+
+<a href="/" class="badge" style="text-decoration:none;">
+    ← Voltar ao início
+</a>
 
 {% endblock %}

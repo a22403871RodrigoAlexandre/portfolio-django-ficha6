@@ -1,0 +1,254 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>Sobre a Aplicação<span>.</span></h2>
+        <p>Documentação técnica do portfolio Django.</p>
+    </div>
+</div>
+
+<!-- ARQUITETURA MVT -->
+<section style="margin-bottom: 3rem;">
+    <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; margin-bottom: 1rem;">
+        Arquitetura MVT
+    </h3>
+    <section class="grid">
+        <article class="card">
+            <header>
+                <h3>Model</h3>
+                <p>Camada de dados</p>
+            </header>
+            <section>
+                <p>Define a estrutura da base de dados. Cada classe em <code>models.py</code> corresponde a uma tabela. O Django gere automaticamente as queries SQL através do ORM.</p>
+            </section>
+        </article>
+
+        <article class="card">
+            <header>
+                <h3>View</h3>
+                <p>Camada de lógica</p>
+            </header>
+            <section>
+                <p>Funções em <code>views.py</code> que recebem um pedido HTTP, recolhem dados do Model e devolvem uma resposta — normalmente um template HTML renderizado.</p>
+            </section>
+        </article>
+
+        <article class="card">
+            <header>
+                <h3>Template</h3>
+                <p>Camada de apresentação</p>
+            </header>
+            <section>
+                <p>Ficheiros HTML que usam a linguagem de templates do Django (<code>&#123;&#123; &#125;&#125;</code> e <code>&#123;% %&#125;</code>) para inserir dinamicamente os dados recebidos da View.</p>
+            </section>
+        </article>
+
+        <article class="card">
+            <header>
+                <h3>Fluxo de Informação</h3>
+                <p>Como funciona um pedido</p>
+            </header>
+            <section>
+                <ul class="plain-list">
+                    <li>1. Browser faz um pedido HTTP</li>
+                    <li>2. <code>urls.py</code> encaminha para a View certa</li>
+                    <li>3. View consulta o Model (base de dados)</li>
+                    <li>4. View passa os dados ao Template</li>
+                    <li>5. Template renderiza o HTML</li>
+                    <li>6. HTML é devolvido ao browser</li>
+                </ul>
+            </section>
+        </article>
+
+        <article class="card" style="grid-column: span 2;">
+            <header>
+                <h3>Diagrama MVT</h3>
+                <p>Desenho da arquitetura — a inserir fotografia</p>
+            </header>
+            <section>
+                <p style="color: var(--muted); font-style: italic;">
+                    [ Inserir aqui fotografia do diagrama feito em papel ]
+                </p>
+            </section>
+        </article>
+    </section>
+</section>
+
+<!-- VIDEO TUTORIAL -->
+<section style="margin-bottom: 3rem;">
+    <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; margin-bottom: 1rem;">
+        Video-Tutorial
+    </h3>
+    <article class="card">
+        <header>
+            <h3>Criação de formulário para novo projeto</h3>
+        </header>
+        <section>
+            <iframe 
+                width="100%" 
+                height="400" 
+                src="SUBSTITUIR_PELO_LINK_YOUTUBE_EMBED" 
+                title="Video tutorial" 
+                frameborder="0" 
+                allowfullscreen
+                style="border-radius: 8px;">
+            </iframe>
+        </section>
+    </article>
+</section>
+
+<!-- MODELAÇÃO -->
+<section style="margin-bottom: 3rem;">
+    <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; margin-bottom: 1rem;">
+        Modelação
+    </h3>
+    <article class="card">
+        <header>
+            <h3>Diagrama Entidade-Relação</h3>
+            <p>Estrutura da base de dados</p>
+        </header>
+        <section>
+            <p style="color: var(--muted); font-style: italic;">
+                <img src="/media/diagrama.png" alt="Diagrama E-R" style="width:100%; border-radius: 8px;">
+            </p>
+        </section>
+    </article>
+    <br>
+    <article class="card">
+        <header>
+            <h3>models.py</h3>
+            <p>Definição dos modelos Django</p>
+        </header>
+        <section>
+            <pre style="background: var(--bg); padding: 1rem; border-radius: 8px; overflow-x: auto; font-size: 0.75rem; color: var(--accent);">
+class Licenciatura(models.Model):
+    nome, sigla, instituicao, descricao
+    ano_inicio, ano_fim, url_curso
+
+class Docente(models.Model):
+    nome, email, url_pagina_lusofona
+    linkedin, foto
+
+class UnidadeCurricular(models.Model):
+    nome, sigla, ano_curricular, semestre, ects
+    licenciatura (FK) → Licenciatura
+    docentes (M2M) → Docente
+
+class Projeto(models.Model):
+    titulo, descricao, url_github
+    uc (FK) → UnidadeCurricular
+    tecnologias (M2M) → Tecnologia
+
+class Tecnologia(models.Model):
+    nome, descricao, categoria, logo, url
+
+class TFC(models.Model):
+    titulo, autor, resumo, rating
+    licenciatura (FK) → Licenciatura
+    orientador (M2M) → Docente
+
+class Competencia(models.Model):
+    nome, tipo, nivel, descricao
+    tecnologias (M2M) → Tecnologia
+
+class Formacao(models.Model):
+    titulo, instituicao, tipo
+    tecnologias (M2M) → Tecnologia
+            </pre>
+        </section>
+    </article>
+</section>
+
+<!-- TECNOLOGIAS -->
+<section style="margin-bottom: 3rem;">
+    <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; margin-bottom: 1rem;">
+        Tecnologias Utilizadas
+    </h3>
+    {% regroup tecnologias by categoria as tec_por_categoria %}
+    {% for grupo in tec_por_categoria %}
+    <h4 style="color: var(--muted); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; margin: 1.5rem 0 0.7rem;">
+        {{ grupo.grouper }}
+    </h4>
+    <section class="grid">
+        {% for tec in grupo.list %}
+        <article class="card">
+            <header>
+                {% if tec.logo %}
+                    <img src="{{ tec.logo.url }}" alt="{{ tec.nome }}">
+                {% endif %}
+                <h3>{{ tec.nome }}</h3>
+                <p>{{ tec.categoria }}</p>
+            </header>
+            <section>
+                {% if tec.descricao %}
+                    <p>{{ tec.descricao }}</p>
+                {% endif %}
+                {% if tec.url %}
+                    <br>
+                    <a href="{{ tec.url }}" class="badge" target="_blank">Ver mais ↗</a>
+                {% endif %}
+            </section>
+        </article>
+        {% endfor %}
+    </section>
+    {% endfor %}
+</section>
+
+<!-- REPOSITÓRIO GITHUB -->
+<section style="margin-bottom: 3rem;">
+    <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; margin-bottom: 1rem;">
+        Repositório GitHub
+    </h3>
+    <article class="card">
+        <header>
+            <h3>Código Fonte</h3>
+            <p>Controlo de versões com Git & GitHub</p>
+        </header>
+        <section>
+            <a href="https://github.com/a22403871RodrigoAlexandre/portfolio-django-ficha6" class="badge" target="_blank" style="text-decoration:none;">
+                Ver repositório ↗
+            </a>
+            <br><br>
+            <h4>Vantagens do GitHub</h4>
+            <ul class="plain-list">
+                <li>Controlo de versões — histórico de todas as alterações</li>
+                <li>Backup automático do código na cloud</li>
+                <li>Colaboração facilitada entre developers</li>
+                <li>Integração com o GitHub Codespaces para desenvolvimento remoto</li>
+                <li>Possibilidade de reverter erros para versões anteriores</li>
+            </ul>
+        </section>
+    </article>
+</section>
+
+<!-- ESTRUTURA DE NAVEGAÇÃO -->
+<section style="margin-bottom: 3rem;">
+    <h3 style="font-family: 'Syne', sans-serif; font-size: 1.3rem; margin-bottom: 1rem;">
+        Estrutura de Navegação
+    </h3>
+    <article class="card">
+        <header>
+            <h3>Mapa da Aplicação</h3>
+        </header>
+        <section>
+            <ul class="plain-list">
+                <li><span class="badge">portfolio/licenciaturas/</span> Lista de licenciaturas</li>
+                <li><span class="badge">portfolio/licenciaturas/id/</span> Detalhe da licenciatura</li>
+                <li><span class="badge">portfolio/docentes/</span> Lista de docentes</li>
+                <li><span class="badge">portfolio/ucs/</span> Lista de unidades curriculares</li>
+                <li><span class="badge">portfolio/ucs/id/</span> Detalhe da UC</li>
+                <li><span class="badge">portfolio/projetos/</span> Lista de projetos</li>
+                <li><span class="badge">portfolio/tecnologias/</span> Lista de tecnologias</li>
+                <li><span class="badge">portfolio/tfcs/</span> Lista de TFCs</li>
+                <li><span class="badge">portfolio/competencias/</span> Lista de competências</li>
+                <li><span class="badge">portfolio/formacoes/</span> Lista de formações</li>
+                <li><span class="badge">portfolio/sobre/</span> Sobre a aplicação</li>
+                <li><span class="badge">portfolio/makingof/</span> Making Of</li>
+            </ul>
+        </section>
+    </article>
+</section>
+
+{% endblock %}

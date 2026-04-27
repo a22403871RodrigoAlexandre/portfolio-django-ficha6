@@ -10,6 +10,13 @@
     <span class="page-count">{{ competencias|length }} competências</span>
 </div>
 
+<!-- BOTÃO CRIAR -->
+<a href="{% url 'competencia_create' %}" 
+   class="badge" 
+   style="text-decoration:none; margin-bottom: 1rem; display:inline-block;">
+    + Nova Competência
+</a>
+
 <section class="grid">
     {% for comp in competencias %}
     <article class="card">
@@ -28,6 +35,7 @@
             {% endif %}
 
             <br>
+
             <h4>Tecnologias</h4>
             <ul class="tag-list">
                 {% for tec in comp.tecnologias.all %}
@@ -36,8 +44,24 @@
                     <li>Sem tecnologias</li>
                 {% endfor %}
             </ul>
+
+            <br>
+
+            <!-- BOTÕES -->
+            <a href="{% url 'competencia_update' comp.id %}" 
+               class="badge" 
+               style="text-decoration:none;">
+                ✏️ Editar
+            </a>
+
+            <a href="{% url 'competencia_delete' comp.id %}" 
+               class="badge" 
+               style="text-decoration:none;">
+                🗑️ Apagar
+            </a>
         </section>
     </article>
+
     {% empty %}
     <article class="card">
         <header>

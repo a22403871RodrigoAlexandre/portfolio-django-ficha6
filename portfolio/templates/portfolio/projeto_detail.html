@@ -19,11 +19,9 @@
 
 <section class="grid">
 
+    <!-- INFORMAÇÃO -->
     <article class="card">
         <header>
-            {% if projeto.foto %}
-                <img src="{{ projeto.foto.url }}" alt="{{ projeto.titulo }}">
-            {% endif %}
             <h3>Informação Geral</h3>
             <p>Dados principais do projeto</p>
         </header>
@@ -44,6 +42,7 @@
         </section>
     </article>
 
+    <!-- TECNOLOGIAS -->
     <article class="card">
         <header>
             <h3>Tecnologias</h3>
@@ -61,6 +60,52 @@
         </section>
     </article>
 
+    <!-- GITHUB -->
+    <article class="card">
+        <header>
+            <h3>GitHub</h3>
+            <p>Repositório do projeto</p>
+        </header>
+
+        <section>
+            {% if projeto.url_github %}
+                <a href="{{ projeto.url_github }}" 
+                   target="_blank" 
+                   class="badge" 
+                   style="text-decoration:none;">
+                    🔗 Abrir GitHub
+                </a>
+            {% else %}
+                <p>Sem link GitHub disponível.</p>
+            {% endif %}
+        </section>
+    </article>
+
+    <!-- IMAGEM (NOVO CARD) -->
+    <article class="card">
+        <header>
+            <h3>Imagem</h3>
+            <p>Imagem do projeto</p>
+        </header>
+
+        <section>
+            {% if projeto.foto %}
+                <img src="{{ projeto.foto.url }}"
+                     alt="{{ projeto.titulo }}"
+                     style="
+                        width: 100%;
+                        max-height: 260px;
+                        object-fit: cover;
+                        border-radius: 18px;
+                        border: 1px solid var(--border);
+                     ">
+            {% else %}
+                <p>Sem imagem disponível.</p>
+            {% endif %}
+        </section>
+    </article>
+
+    <!-- AÇÕES -->
     <article class="card">
         <header>
             <h3>Ações</h3>

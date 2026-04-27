@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Licenciatura, Docente, UnidadeCurricular, Tecnologia, Projeto, TFC, Competencia, Formacao
 from .forms import ProjetoForm
 from .forms import LicenciaturaForm
+from .forms import TecnologiaForm, CompetenciaForm, FormacaoForm
 from django.shortcuts import redirect
 
 
@@ -133,3 +134,134 @@ def licenciatura_delete(request, pk):
         return redirect('licenciaturas')
 
     return render(request, 'portfolio/licenciatura_confirm_delete.html', {'lic': lic})
+
+def tecnologia_create(request):
+    if request.method == 'POST':
+        form = TecnologiaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('tecnologias')
+    else:
+        form = TecnologiaForm()
+
+    return render(request, 'portfolio/form_generico.html', {'form': form, 'titulo': 'Tecnologia'})
+
+
+def tecnologia_update(request, pk):
+    tecnologia = get_object_or_404(Tecnologia, pk=pk)
+
+    if request.method == 'POST':
+        form = TecnologiaForm(request.POST, request.FILES, instance=tecnologia)
+        if form.is_valid():
+            form.save()
+            return redirect('tecnologias')
+    else:
+        form = TecnologiaForm(instance=tecnologia)
+
+    return render(request, 'portfolio/form_generico.html', {'form': form, 'titulo': 'Tecnologia'})
+
+
+def tecnologia_delete(request, pk):
+    tecnologia = get_object_or_404(Tecnologia, pk=pk)
+
+    if request.method == 'POST':
+        tecnologia.delete()
+        return redirect('tecnologias')
+
+    return render(request, 'portfolio/confirm_delete_generico.html', {
+        'objeto': tecnologia,
+        'voltar_url': 'tecnologias',
+        'titulo': 'Tecnologia'
+    })
+
+
+def competencia_create(request):
+    if request.method == 'POST':
+        form = CompetenciaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('competencias')
+    else:
+        form = CompetenciaForm()
+
+    return render(request, 'portfolio/form_generico.html', {'form': form, 'titulo': 'Competência'})
+
+
+def competencia_update(request, pk):
+    competencia = get_object_or_404(Competencia, pk=pk)
+
+    if request.method == 'POST':
+        form = CompetenciaForm(request.POST, request.FILES, instance=competencia)
+        if form.is_valid():
+            form.save()
+            return redirect('competencias')
+    else:
+        form = CompetenciaForm(instance=competencia)
+
+    return render(request, 'portfolio/form_generico.html', {'form': form, 'titulo': 'Competência'})
+
+
+def competencia_delete(request, pk):
+    competencia = get_object_or_404(Competencia, pk=pk)
+
+    if request.method == 'POST':
+        competencia.delete()
+        return redirect('competencias')
+
+    return render(request, 'portfolio/confirm_delete_generico.html', {
+        'objeto': competencia,
+        'voltar_url': 'competencias',
+        'titulo': 'Competência'
+    })
+
+
+def formacao_create(request):
+    if request.method == 'POST':
+        form = FormacaoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('formacoes')
+    else:
+        form = FormacaoForm()
+
+    return render(request, 'portfolio/form_generico.html', {'form': form, 'titulo': 'Formação'})
+
+
+def formacao_update(request, pk):
+    formacao = get_object_or_404(Formacao, pk=pk)
+
+    if request.method == 'POST':
+        form = FormacaoForm(request.POST, request.FILES, instance=formacao)
+        if form.is_valid():
+            form.save()
+            return redirect('formacoes')
+    else:
+        form = FormacaoForm(instance=formacao)
+
+    return render(request, 'portfolio/form_generico.html', {'form': form, 'titulo': 'Formação'})
+
+
+def formacao_delete(request, pk):
+    formacao = get_object_or_404(Formacao, pk=pk)
+
+    if request.method == 'POST':
+        formacao.delete()
+        return redirect('formacoes')
+
+    return render(request, 'portfolio/confirm_delete_generico.html', {
+        'objeto': formacao,
+        'voltar_url': 'formacoes',
+        'titulo': 'Formação'
+    })
+
+from .models import Docente
+def docente_detail_view(request, docente_id):
+    docente = get_object_or_404(Docente, id=docente_id)
+
+    return render(request, 'portfolio/docente_detail.html', {
+        'docente': docente
+    })
+
+def sobre_view(request):
+    tecnologias = Tecnologia.objects.all().order_by('categoria')
+    return render(request, 'portfolio/sobre.html', {'tecnologias': tecnologias})

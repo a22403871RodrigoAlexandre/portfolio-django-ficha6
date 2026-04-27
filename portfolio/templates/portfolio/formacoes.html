@@ -10,6 +10,12 @@
     <span class="page-count">{{ formacoes|length }} formações</span>
 </div>
 
+<a href="{% url 'formacao_create' %}" 
+   class="badge" 
+   style="text-decoration:none; margin-bottom: 1rem; display:inline-block;">
+    + Nova Formação
+</a>
+
 <section class="grid">
     {% for formacao in formacoes %}
     <article class="card">
@@ -23,6 +29,7 @@
             <p><span class="badge">{{ formacao.tipo }}</span></p>
 
             <br>
+
             <h4>Tecnologias</h4>
             <ul class="tag-list">
                 {% for tec in formacao.tecnologias.all %}
@@ -31,8 +38,23 @@
                     <li>Sem tecnologias</li>
                 {% endfor %}
             </ul>
+
+            <br>
+
+            <a href="{% url 'formacao_update' formacao.id %}" 
+               class="badge" 
+               style="text-decoration:none;">
+                ✏️ Editar
+            </a>
+
+            <a href="{% url 'formacao_delete' formacao.id %}" 
+               class="badge" 
+               style="text-decoration:none;">
+                🗑️ Apagar
+            </a>
         </section>
     </article>
+
     {% empty %}
     <article class="card">
         <header>

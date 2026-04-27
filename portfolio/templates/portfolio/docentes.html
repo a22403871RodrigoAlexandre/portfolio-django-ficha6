@@ -7,8 +7,11 @@
         <h2>Docentes<span>.</span></h2>
         <p>Docentes associados às unidades curriculares.</p>
     </div>
+
     <span class="page-count">{{ docentes|length }} docentes</span>
 </div>
+
+<!-- 🔍 BARRA DE PESQUISA -->
 <div style="margin-bottom: 1.5rem;">
     <input 
         type="text" 
@@ -30,25 +33,45 @@
 <section class="grid">
     {% for docente in docentes %}
     <article class="card docente-card">
+
         <header>
             {% if docente.foto %}
                 <img src="{{ docente.foto.url }}" alt="{{ docente.nome }}">
             {% endif %}
-            <h3>{{ docente.nome }}</h3>
+
+            <h3>
+                <a href="{% url 'docente_detail' docente.id %}" 
+                   style="color: inherit; text-decoration: none;">
+                    {{ docente.nome }}
+                </a>
+            </h3>
+
             <p>{{ docente.email }}</p>
         </header>
 
         <section>
             <h4>Unidades Curriculares</h4>
+
             <ul class="plain-list">
                 {% for uc in docente.ucs.all %}
-                    <li>{{ uc.sigla }} – {{ uc.nome }}</li>
+                    <li>{{ uc.nome }}</li>
                 {% empty %}
                     <li>Sem UCs atribuídas</li>
                 {% endfor %}
             </ul>
+
+            <br>
+
+            <a href="{% url 'docente_detail' docente.id %}" 
+               class="badge" 
+               style="text-decoration:none;">
+                🔍 Ver detalhes
+            </a>
+
         </section>
+
     </article>
+
     {% empty %}
     <article class="card">
         <header>
@@ -58,6 +81,8 @@
     </article>
     {% endfor %}
 </section>
+
+<!-- 🔍 SCRIPT PESQUISA -->
 <script>
     const input = document.getElementById('pesquisaDocentes');
     const cards = document.querySelectorAll('.docente-card');
@@ -76,6 +101,5 @@
         });
     });
 </script>
-
 
 {% endblock %}

@@ -1,0 +1,64 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>{{ docente.nome }}<span>.</span></h2>
+        <p>{{ docente.email }}</p>
+    </div>
+
+    <span class="page-count">Docente</span>
+</div>
+
+<section class="grid">
+
+    <article class="card">
+        <header>
+            {% if docente.foto %}
+                <img src="{{ docente.foto.url }}" alt="{{ docente.nome }}">
+            {% endif %}
+            <h3>Informação Geral</h3>
+            <p>Dados do docente</p>
+        </header>
+
+        <section>
+            <h4>Email</h4>
+            {% if docente.email %}
+                <p>{{ docente.email }}</p>
+            {% else %}
+                <p>Sem email disponível.</p>
+            {% endif %}
+        </section>
+    </article>
+
+    <article class="card">
+        <header>
+            <h3>Unidades Curriculares</h3>
+            <p>Cadeiras associadas ao docente</p>
+        </header>
+
+        <section>
+            <ul class="plain-list">
+                {% for uc in docente.ucs.all %}
+                    <li>
+                        <a href="{% url 'uc_detail' uc.id %}" style="color: inherit; text-decoration: none;">
+                            {{ uc.nome }}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li>Sem UCs atribuídas</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </article>
+
+</section>
+
+<br>
+
+<a href="{% url 'docentes' %}" class="badge" style="text-decoration: none;">
+    ← Voltar aos Docentes
+</a>
+
+{% endblock %}

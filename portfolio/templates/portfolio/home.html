@@ -3,72 +3,329 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
+    <title>Portfolio — Rodrigo Alexandre</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Inter', sans-serif;
-            background:
-                radial-gradient(circle at top, rgba(59,130,246,0.2), transparent),
-                linear-gradient(135deg, #050816, #020617);
-            color: white;
-            text-align: center;
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0a0a0f;
+            --accent: #7c6aff;
+            --accent2: #06b6d4;
+            --text: #e8e8f0;
+            --muted: #6b6b80;
+            --border: #1e1e2e;
+            --card: #13131c;
         }
 
-        .hero {
-            max-width: 600px;
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Mono', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* background blobs */
+        .bg-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .blob1 { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -200px; }
+        .blob2 { width: 400px; height: 400px; background: var(--accent2); bottom: -100px; right: -100px; }
+
+        /* LAYOUT */
+        .container {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            gap: 4rem;
+        }
+
+        /* LEFT — text */
+        .left { display: flex; flex-direction: column; gap: 1.5rem; }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(124,106,255,0.1);
+            border: 1px solid rgba(124,106,255,0.3);
+            color: var(--accent);
+            padding: 0.3rem 0.8rem;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            width: fit-content;
+        }
+
+        .tag::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         h1 {
             font-family: 'Syne', sans-serif;
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            color: var(--text);
         }
 
         h1 span {
-            color: #06b6d4;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        p {
-            color: #94a3b8;
-            margin-bottom: 2rem;
+        .subtitle {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.8;
+            max-width: 420px;
         }
 
-        .btn {
-            padding: 0.8rem 1.6rem;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+        /* stats row */
+        .stats {
+            display: flex;
+            gap: 2rem;
+            padding: 1.2rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stat-item { display: flex; flex-direction: column; gap: 0.2rem; }
+
+        .stat-num {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .stat-label { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.08em; }
+
+        /* buttons */
+        .actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+        .btn-primary {
+            padding: 0.75rem 1.6rem;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
             color: white;
             text-decoration: none;
-            font-weight: 600;
-            transition: 0.2s;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.82rem;
+            font-weight: 400;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,106,255,0.3); }
+
+        .btn-ghost {
+            padding: 0.75rem 1.6rem;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--muted);
+            text-decoration: none;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.82rem;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .btn-ghost:hover { color: var(--text); border-color: var(--accent); }
+
+        /* RIGHT — photo card */
+        .right { display: flex; justify-content: center; align-items: center; }
+
+        .photo-card {
+            position: relative;
+            width: 320px;
+        }
+
+        .photo-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .photo-card img {
+            width: 100%;
+            border-radius: 18px;
+            display: block;
+            object-fit: cover;
+            aspect-ratio: 3/4;
+            background: var(--card);
+        }
+
+        /* floating badge on photo */
+        .photo-badge {
+            position: absolute;
+            bottom: -1rem;
+            left: -1rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        .badge-dot {
+            width: 36px; height: 36px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .badge-text { display: flex; flex-direction: column; }
+        .badge-title { font-size: 0.75rem; color: var(--text); font-weight: 400; }
+        .badge-sub { font-size: 0.65rem; color: var(--muted); }
+
+        /* nav top */
+        .topbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            background: rgba(10,10,15,0.8);
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .topbar-links { display: flex; gap: 1.5rem; }
+
+        .topbar-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.78rem;
+            transition: color 0.15s;
+        }
+
+        .topbar-links a:hover { color: var(--text); }
+
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; padding: 6rem 1.5rem 2rem; gap: 3rem; }
+            .right { order: -1; }
+            .photo-card { width: 220px; }
+            .stats { gap: 1.2rem; }
         }
     </style>
 </head>
 
 <body>
 
-<div class="hero">
-    <h1>Bem-vindo ao meu <span>Portfolio</span></h1>
+<div class="bg-blob blob1"></div>
+<div class="bg-blob blob2"></div>
 
-    <p>
-        Aqui podes explorar o meu percurso académico, projetos e competências.
-    </p>
+<!-- TOP NAV -->
+<nav class="topbar">
+    <a href="/" class="logo">rodrigo<span>.</span></a>
+    <div class="topbar-links">
+        <a href="{% url 'licenciaturas' %}">Académico</a>
+        <a href="{% url 'projetos' %}">Projetos</a>
+        <a href="{% url 'tecnologias' %}">Skills</a>
+        <a href="{% url 'sobre' %}">Sobre</a>
+    </div>
+</nav>
 
-    <a href="{% url 'licenciaturas' %}" class="btn">
-        Entrar →
-    </a>
+<!-- HERO -->
+<div class="container">
+
+    <!-- LEFT -->
+    <div class="left">
+        <span class="tag">Disponível para projetos</span>
+
+        <h1>Rodrigo<br><span>Alexandre</span></h1>
+
+        <p class="subtitle">
+            Estudante de 2º ano de Informática de Gestão.<br>
+            Apaixonado por desenvolvimento web e tecnologia.<br>
+            A construir o futuro, uma linha de código de cada vez.
+        </p>
+
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-num">2º</span>
+                <span class="stat-label">Ano</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">IG</span>
+                <span class="stat-label">Curso</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">Git</span>
+                <span class="stat-label">Controlo versões</span>
+            </div>
+        </div>
+
+        <div class="actions">
+            <a href="{% url 'licenciaturas' %}" class="btn-primary">Ver Portfolio →</a>
+            <a href="https://github.com/a22403871RodrigoAlexandre/portfolio-django-ficha6" target="_blank" class="btn-ghost">GitHub ↗</a>
+        </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right">
+        <div class="photo-card">
+            <img src="/media/foto.jpg" alt="Rodrigo Alexandre">
+            <div class="photo-badge">
+                <div class="badge-dot">🎓</div>
+                <div class="badge-text">
+                    <span class="badge-title">Informática de Gestão</span>
+                    <span class="badge-sub">Universidade Lusófona</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 </body>

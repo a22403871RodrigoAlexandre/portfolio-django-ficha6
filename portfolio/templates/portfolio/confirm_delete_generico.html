@@ -1,0 +1,30 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>Apagar {{ titulo }}<span>.</span></h2>
+        <p>Confirmação de remoção.</p>
+    </div>
+</div>
+
+<article class="card" style="padding: 1.5rem;">
+    <p>Tem a certeza que quer apagar "{{ objeto }}"?</p>
+
+    <br>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <button type="submit" class="badge" style="cursor:pointer;">
+            Sim, apagar
+        </button>
+
+        <a href="{% url voltar_url %}" class="badge" style="text-decoration:none;">
+            Cancelar
+        </a>
+    </form>
+</article>
+
+{% endblock %}

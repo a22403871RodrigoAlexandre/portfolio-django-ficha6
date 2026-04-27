@@ -1,0 +1,23 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>{{ titulo }}<span>.</span></h2>
+        <p>Criar ou editar {{ titulo|lower }}.</p>
+    </div>
+</div>
+
+<form method="POST" enctype="multipart/form-data" class="card" style="padding: 1.5rem;">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <br>
+
+    <button type="submit" class="badge" style="cursor:pointer;">
+        Guardar
+    </button>
+</form>
+
+{% endblock %}
