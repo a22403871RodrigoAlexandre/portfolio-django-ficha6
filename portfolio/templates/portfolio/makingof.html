@@ -1,5 +1,4 @@
 {% extends "portfolio/base.html" %}
-{% load static %}
 
 {% block content %}
 
@@ -8,54 +7,70 @@
         <h2>Making Of<span>.</span></h2>
         <p>Documentação e reflexão sobre o desenvolvimento do projeto.</p>
     </div>
-
-    <span class="page-count">Documento</span>
+    <span class="page-count">{{ registos|length }} registos</span>
 </div>
 
 <section class="grid">
 
-    <!-- CARD DESCRIÇÃO -->
     <article class="card">
         <header>
             <h3>Sobre o Projeto</h3>
             <p>Contexto e desenvolvimento</p>
         </header>
-
         <section>
-            <p>
-                Nesta secção apresento o making of do projeto, onde explico todo o processo de desenvolvimento,
-                dificuldades encontradas, decisões tomadas e aprendizagens adquiridas ao longo do trabalho.
-            </p>
+            <p>Documentação do processo de desenvolvimento, dificuldades encontradas, decisões tomadas e aprendizagens adquiridas.</p>
+            <br>
+            <a href="https://docs.google.com/document/d/1vzbsC3ORNFG_yKKG9Iw2elbVQ1W6EC2c4RyMDn2LiY0/edit?usp=sharing" 
+               target="_blank" class="badge" style="text-decoration:none;">
+                📄 Documento completo
+            </a>
         </section>
     </article>
 
-    <!-- CARD DOCUMENTO -->
+    {% for registo in registos %}
     <article class="card">
         <header>
-            <h3>Documento</h3>
-            <p>Relatório completo em Word</p>
+            <h3>{{ registo.titulo }}</h3>
+            <p>{{ registo.get_entidade_display }} · {{ registo.data }}</p>
         </header>
 
         <section>
-            <p>Podes abrir o documento completo aqui:</p>
+            {% if registo.descricao_decisoes %}
+                <h4>Decisões</h4>
+                <p>{{ registo.descricao_decisoes }}</p>
+                <br>
+            {% endif %}
 
-            <br>
+            {% if registo.erros_encontrados %}
+                <h4>Erros encontrados</h4>
+                <p>{{ registo.erros_encontrados }}</p>
+                <br>
+            {% endif %}
 
-            <a href="https://docs.google.com/document/d/1vzbsC3ORNFG_yKKG9Iw2elbVQ1W6EC2c4RyMDn2LiY0/edit?usp=sharing" 
-   target="_blank" 
-   class="badge" 
-   style="text-decoration:none;">
-    📄 Abrir Making Of
-</a>
+            {% if registo.correcoes %}
+                <h4>Correções</h4>
+                <p>{{ registo.correcoes }}</p>
+            {% endif %}
+
+            {% if registo.foto %}
+                <br>
+                <img src="{{ registo.foto.url }}" alt="{{ registo.titulo }}" 
+                     style="width:100%; border-radius: 8px; margin-top: 0.5rem;">
+            {% endif %}
         </section>
     </article>
+    {% empty %}
+        <article class="card">
+            <header>
+                <h3>Sem registos</h3>
+                <p>Ainda não existem entradas no Making Of.</p>
+            </header>
+        </article>
+    {% endfor %}
 
 </section>
 
 <br>
-
-<a href="/" class="badge" style="text-decoration:none;">
-    ← Voltar ao início
-</a>
+<a href="/" class="badge" style="text-decoration:none;">← Voltar ao início</a>
 
 {% endblock %}

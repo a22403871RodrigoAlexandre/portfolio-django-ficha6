@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Licenciatura, Docente, UnidadeCurricular, Tecnologia, Projeto, TFC, Competencia, Formacao
+from .models import Licenciatura, Docente, UnidadeCurricular, Tecnologia, Projeto, TFC, Competencia, Formacao, MakingOf
 from .forms import ProjetoForm
 from .forms import LicenciaturaForm
 from .forms import TecnologiaForm, CompetenciaForm, FormacaoForm
@@ -48,8 +48,10 @@ def uc_detail_view(request, uc_id):
         'uc': uc
     })
 
+
 def makingof_view(request):
-    return render(request, 'portfolio/makingof.html')
+    registos = MakingOf.objects.all()
+    return render(request, 'portfolio/makingof.html', {'registos': registos})
 
 def projeto_create(request):
     if request.method == 'POST':
@@ -265,3 +267,12 @@ def docente_detail_view(request, docente_id):
 def sobre_view(request):
     tecnologias = Tecnologia.objects.all().order_by('categoria')
     return render(request, 'portfolio/sobre.html', {'tecnologias': tecnologias})
+
+def tfcs_view(request):
+    tfcs = TFC.objects.all()
+    return render(request, 'portfolio/tfcs.html', {'tfcs': tfcs})
+
+
+def tfc_detail_view(request, tfc_id):
+    tfc = TFC.objects.get(id=tfc_id)
+    return render(request, 'portfolio/tfc_detail.html', {'tfc': tfc})

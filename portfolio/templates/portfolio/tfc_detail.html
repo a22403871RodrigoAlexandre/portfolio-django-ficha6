@@ -1,0 +1,62 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>{{ tfc.titulo }}<span>.</span></h2>
+        <p>Detalhes do Trabalho de Fim de Curso.</p>
+    </div>
+
+    <a href="{% url 'tfcs' %}" class="badge" style="text-decoration:none;">
+        Voltar
+    </a>
+</div>
+
+<article class="card" style="padding: 2rem;">
+
+    <section>
+        <h4>Autor</h4>
+        <p>{{ tfc.autor }}</p>
+    </section>
+
+    <br>
+
+    <section>
+        <h4>Curso</h4>
+
+{% if tfc.licenciatura %}
+    <p>
+        <span class="badge">
+            {{ tfc.licenciatura.sigla }} - {{ tfc.licenciatura.nome }}
+        </span>
+    </p>
+{% else %}
+    <p>Sem licenciatura associada</p>
+{% endif %}
+    </section>
+
+    {% if tfc.resumo %}
+        <br>
+        <section>
+            <h4>Resumo</h4>
+            <p>{{ tfc.resumo }}</p>
+        </section>
+    {% endif %}
+
+    <br>
+
+    <section>
+        <h4>Orientadores</h4>
+        <ul class="plain-list">
+            {% for o in tfc.orientador.all %}
+                <li>{{ o.nome }}</li>
+            {% empty %}
+                <li>Sem orientador</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+</article>
+
+{% endblock %}

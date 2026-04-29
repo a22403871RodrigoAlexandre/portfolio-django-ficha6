@@ -3,17 +3,182 @@
 {% block content %}
 
 <div class="page-header">
-    <h2>Projeto<span>.</span></h2>
+    <div>
+        <h2>Projeto<span>.</span></h2>
+        <p>Cria ou edita um projeto académico do teu portfólio.</p>
+    </div>
 </div>
 
-<form method="POST" enctype="multipart/form-data" class="card" style="padding:20px;">
-    {% csrf_token %}
-    
-    {{ form.as_p }}
+<section class="form-wrapper">
+    <form method="POST" enctype="multipart/form-data" class="project-form">
+        {% csrf_token %}
 
-    <button type="submit" class="badge" style="cursor:pointer;">
-        Guardar
-    </button>
-</form>
+        <div class="form-grid">
+            {% for field in form %}
+                <div class="form-group {% if field.field.widget.input_type == 'textarea' %}full{% endif %} {% if field.name == 'tecnologias' %}full{% endif %}">
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <small>{{ field.help_text }}</small>
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                        <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="form-actions">
+            <a href="{% url 'projetos' %}" class="btn-secondary">Cancelar</a>
+            <button type="submit" class="btn-primary">Guardar projeto</button>
+        </div>
+    </form>
+</section>
+
+<style>
+    .form-wrapper {
+        max-width: 950px;
+        margin: 50px auto;
+    }
+
+    .project-form {
+        padding: 34px;
+        border-radius: 26px;
+        background: rgba(15, 23, 42, 0.82);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(18px);
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+    }
+
+    .form-group.full {
+        grid-column: 1 / -1;
+    }
+
+    .form-group label {
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #22d3ee;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 16px;
+        border: 1px solid rgba(148, 163, 184, 0.22);
+        background: rgba(2, 6, 23, 0.78);
+        color: #e5e7eb;
+        font-size: 0.95rem;
+        outline: none;
+        transition: 0.25s ease;
+    }
+
+    .form-group textarea {
+        min-height: 140px;
+        resize: vertical;
+    }
+
+    .form-group select[multiple] {
+        min-height: 150px;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+        border-color: #22d3ee;
+        box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.12);
+    }
+
+    .form-group input[type="file"] {
+        padding: 12px;
+        cursor: pointer;
+    }
+
+    .form-group small {
+        color: #94a3b8;
+        font-size: 0.8rem;
+    }
+
+    .field-error {
+        color: #fb7185;
+        font-size: 0.85rem;
+        margin: 0;
+    }
+
+    .form-actions {
+        margin-top: 34px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 14px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        border: none;
+        text-decoration: none;
+        padding: 13px 22px;
+        border-radius: 999px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: 0.25s ease;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #22d3ee, #6366f1);
+        color: white;
+        box-shadow: 0 12px 35px rgba(34, 211, 238, 0.22);
+    }
+
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.06);
+        color: #cbd5e1;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-primary:hover,
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 800px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .project-form {
+            padding: 24px;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            text-align: center;
+            width: 100%;
+        }
+    }
+</style>
 
 {% endblock %}

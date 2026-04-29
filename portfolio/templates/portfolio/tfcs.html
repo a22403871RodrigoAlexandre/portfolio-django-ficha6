@@ -17,28 +17,13 @@
 
         <header>
             <h3>{{ tfc.titulo }}</h3>
-            <p>{{ tfc.autor }}</p>
+            <p>Trabalho de Fim de Curso</p>
         </header>
 
         <section>
-            <h4>Curso</h4>
-            <p><span class="badge">{{ tfc.licenciatura.sigla }}</span></p>
-
-            {% if tfc.resumo %}
-                <br>
-                <h4>Resumo</h4>
-                <p>{{ tfc.resumo }}</p>
-            {% endif %}
-
-            <br>
-            <h4>Orientadores</h4>
-            <ul class="plain-list">
-                {% for o in tfc.orientador.all %}
-                    <li>{{ o.nome }}</li>
-                {% empty %}
-                    <li>Sem orientador</li>
-                {% endfor %}
-            </ul>
+            <a href="{% url 'tfc_detail' tfc.id %}" class="badge" style="text-decoration:none;">
+                Ver detalhes →
+            </a>
         </section>
 
     </article>
