@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0d0d0d;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-card {
+            background: #161616;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .auth-card h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.4rem;
+        }
+
+        .auth-card h1 span { color: #7c3aed; }
+
+        .auth-card p.subtitle {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #aaa;
+            margin-bottom: 0.4rem;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            background: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus { border-color: #7c3aed; }
+
+        .btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: #7c3aed;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .btn:hover { background: #6d28d9; }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #7c3aed;
+            color: #7c3aed;
+        }
+
+        .btn-outline:hover { background: #7c3aed; color: #fff; }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin: 1.8rem 0 1.2rem;
+            color: #555;
+            font-size: 0.8rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #2a2a2a;
+        }
+
+        .messages { margin-bottom: 1.2rem; }
+
+        .message {
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .message.error { background: #2a1a1a; border: 1px solid #7f1d1d; color: #fca5a5; }
+        .message.success { background: #0f2a1a; border: 1px solid #14532d; color: #86efac; }
+
+        .auth-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .auth-footer a {
+            color: #7c3aed;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-footer a:hover { text-decoration: underline; }
+
+        .magic-section {
+            background: #1a1a2e;
+            border: 1px solid #2e2e4e;
+            border-radius: 12px;
+            padding: 1.2rem;
+        }
+
+        .magic-section h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .magic-section p {
+            font-size: 0.82rem;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+
+        .magic-row {
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        .magic-row input { flex: 1; }
+
+        .magic-row .btn {
+            width: auto;
+            padding: 0.7rem 1rem;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-card">
+    <h1>Portfolio<span>.</span></h1>
+    <p class="subtitle">Entra na tua conta para gerir o conteúdo.</p>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="message {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Formulário username + password -->
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="o teu username" autofocus required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="a tua password" required>
+        </div>
+
+        <button type="submit" class="btn">Entrar</button>
+    </form>
+
+    <!-- Magic Link como alternativa -->
+    <div class="divider">ou entra sem password</div>
+
+    <div class="magic-section">
+        <h3>✨ Magic Link</h3>
+        <p>Recebe um link no email para entrares sem password. Expira em 15 minutos.</p>
+        <form method="post" action="{% url 'magic_link_request' %}">
+            {% csrf_token %}
+            <div class="magic-row">
+                {{ magic_link_form.email }}
+                <button type="submit" class="btn btn-outline">Enviar link</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="auth-footer">
+        Não tens conta? <a href="{% url 'register' %}">Registar</a>
+        &nbsp;·&nbsp;
+        <a href="{% url 'home' %}">Voltar ao site</a>
+    </div>
+</div>
+
+</body>
+</html>

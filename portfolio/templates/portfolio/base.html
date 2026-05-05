@@ -1,5 +1,6 @@
 <!-- portfolio/templates/portfolio/base.html -->
 {% load static %}
+{% load auth_extras %}
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -11,7 +12,52 @@
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        
+        .sidebar {
+            overflow-y: scroll !important;
+        }
+        .auth-badge {
+            font-size: 0.65rem;
+            background: #4c1d95;
+            color: #c4b5fd;
+            padding: 0.1rem 0.35rem;
+            border-radius: 4px;
+        }
+        .sidebar-user-inline {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.2rem;
+            font-size: 0.78rem;
+        }
+        .sidebar-username {
+            color: #ccc;
+            font-weight: 500;
+        }
+        .sidebar-logout {
+            margin-left: auto;
+            font-size: 0.72rem;
+            color: #666;
+            text-decoration: none;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 0.1rem 0.5rem;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .sidebar-logout:hover { color: #ef4444; border-color: #ef4444; }
+        .sidebar-login-btn {
+            display: inline-block;
+            margin-bottom: 1.2rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #fff;
+            background: #7c3aed;
+            text-decoration: none;
+            padding: 0.35rem 0.9rem;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .sidebar-login-btn:hover { background: #6d28d9; }
     </style>
     <link rel="stylesheet" href="{% static 'portfolio/styles.css' %}">
 </head>
@@ -24,6 +70,18 @@
     </a>
 
     <p class="sidebar-sub">Rodrigo Alexandre • Django App</p>
+
+    {% if user.is_authenticated %}
+    <div class="sidebar-user-inline">
+        <span class="dot" style="background:#22c55e; flex-shrink:0;"></span>
+        <span class="sidebar-username">{{ user.username }}</span>
+        {% if user|in_group:"gestor-portfolio" %}<span class="auth-badge">gestor</span>{% endif %}
+        {% if user|in_group:"autores" %}<span class="auth-badge" style="background:#1e3a2f; color:#86efac;">autor</span>{% endif %}
+        <a href="{% url 'logout' %}" class="sidebar-logout">sair</a>
+    </div>
+    {% else %}
+    <a href="{% url 'login' %}" class="sidebar-login-btn">Entrar</a>
+    {% endif %}
 
     <p class="nav-section">Académico</p>
     <nav>
@@ -44,11 +102,17 @@
         <a href="{% url 'competencias' %}"><span class="dot"></span>Competências</a>
         <a href="{% url 'formacoes' %}"><span class="dot"></span>Formações</a>
     </nav>
+    <p class="nav-section">Conteúdo</p>
+<nav>
+    <a href="{% url 'artigos_list' %}"><span class="dot"></span>Artigos</a>
+</nav>
+
     <p class="nav-section">Documentação</p>
 <nav>
     <a href="{% url 'sobre' %}"><span class="dot"></span>Sobre a App</a>
     <a href="{% url 'makingof' %}"><span class="dot"></span>Making Of</a>
 </nav>
+
 </aside>
 
 <main class="main">

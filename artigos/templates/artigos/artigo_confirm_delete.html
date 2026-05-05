@@ -1,0 +1,37 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>Apagar Artigo<span>.</span></h2>
+        <p>Esta acção é irreversível.</p>
+    </div>
+</div>
+
+<div class="card" style="max-width:500px;">
+    <header>
+        <h3>{{ artigo.titulo }}</h3>
+        <p style="font-size:0.85rem; color:var(--muted);">
+            por {{ artigo.autor.username }} · {{ artigo.data_criacao|date:"d M Y" }}
+        </p>
+    </header>
+    <section>
+        <p>Tens a certeza que queres apagar este artigo?</p>
+        <br>
+        <form method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit"
+                    style="padding:0.6rem 1.4rem; background:#ef4444; color:#fff; border:none;
+                           border-radius:8px; font-family:inherit; cursor:pointer; font-size:0.9rem;">
+                Apagar
+            </button>
+        </form>
+        <a href="{% url 'artigo_detail' artigo.pk %}" class="badge"
+           style="text-decoration:none; margin-left:0.6rem;">
+            Cancelar
+        </a>
+    </section>
+</div>
+
+{% endblock %}

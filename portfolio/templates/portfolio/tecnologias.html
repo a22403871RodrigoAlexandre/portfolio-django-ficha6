@@ -1,4 +1,5 @@
 {% extends "portfolio/base.html" %}
+{% load auth_extras %}
 
 {% block content %}
 
@@ -10,11 +11,13 @@
     <span class="page-count">{{ tecnologias|length }} tecnologias</span>
 </div>
 
-<a href="{% url 'tecnologia_create' %}" 
-   class="badge" 
+{% if user|in_group:"gestor-portfolio" %}
+<a href="{% url 'tecnologia_create' %}"
+   class="badge"
    style="text-decoration:none; margin-bottom: 1rem; display:inline-block;">
     + Nova Tecnologia
 </a>
+{% endif %}
 
 <section class="grid">
     {% for tec in tecnologias %}
@@ -37,17 +40,18 @@
 
             <br>
 
-            <a href="{% url 'tecnologia_update' tec.id %}" 
-               class="badge" 
+            {% if user|in_group:"gestor-portfolio" %}
+            <a href="{% url 'tecnologia_update' tec.id %}"
+               class="badge"
                style="text-decoration:none;">
                 ✏️ Editar
             </a>
-
-            <a href="{% url 'tecnologia_delete' tec.id %}" 
-               class="badge" 
+            <a href="{% url 'tecnologia_delete' tec.id %}"
+               class="badge"
                style="text-decoration:none;">
                 🗑️ Apagar
             </a>
+            {% endif %}
         </section>
     </article>
     {% empty %}

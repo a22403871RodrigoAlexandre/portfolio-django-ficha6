@@ -1,4 +1,5 @@
 {% extends "portfolio/base.html" %}
+{% load auth_extras %}
 
 {% block content %}
 
@@ -10,12 +11,13 @@
     <span class="page-count">{{ competencias|length }} competências</span>
 </div>
 
-<!-- BOTÃO CRIAR -->
-<a href="{% url 'competencia_create' %}" 
-   class="badge" 
+{% if user|in_group:"gestor-portfolio" %}
+<a href="{% url 'competencia_create' %}"
+   class="badge"
    style="text-decoration:none; margin-bottom: 1rem; display:inline-block;">
     + Nova Competência
 </a>
+{% endif %}
 
 <section class="grid">
     {% for comp in competencias %}
@@ -47,18 +49,18 @@
 
             <br>
 
-            <!-- BOTÕES -->
-            <a href="{% url 'competencia_update' comp.id %}" 
-               class="badge" 
+            {% if user|in_group:"gestor-portfolio" %}
+            <a href="{% url 'competencia_update' comp.id %}"
+               class="badge"
                style="text-decoration:none;">
                 ✏️ Editar
             </a>
-
-            <a href="{% url 'competencia_delete' comp.id %}" 
-               class="badge" 
+            <a href="{% url 'competencia_delete' comp.id %}"
+               class="badge"
                style="text-decoration:none;">
                 🗑️ Apagar
             </a>
+            {% endif %}
         </section>
     </article>
 

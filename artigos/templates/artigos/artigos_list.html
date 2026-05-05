@@ -1,0 +1,76 @@
+{% extends "portfolio/base.html" %}
+{% load auth_extras %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>Artigos<span>.</span></h2>
+        <p>Conteúdos sobre tecnologia e soft-skills.</p>
+    </div>
+    <span class="page-count">{{ artigos|length }} artigos</span>
+</div>
+
+{% if user|in_group:"autores" %}
+<a href="{% url 'artigo_create' %}" class="badge"
+   style="text-decoration:none; margin-bottom:1.5rem; display:inline-block;">
+    + Novo Artigo
+</a>
+{% endif %}
+
+{% if messages %}
+<div style="margin-bottom:1rem;">
+    {% for message in messages %}
+    <p style="color:{% if message.tags == 'error' %}#f87171{% else %}#86efac{% endif %}; font-size:0.88rem;">
+        {{ message }}
+    </p>
+    {% endfor %}
+</div>
+{% endif %}
+
+<section class="grid">
+    {% for artigo in artigos %}
+    <article class="card">
+        {% if artigo.fotografia %}
+        <img src="{{ artigo.fotografia.url }}" alt="{{ artigo.titulo }}"
+             style="width:100%; height:160px; object-fit:cover; border-radius:8px; margin-bottom:0.8rem;">
+        {% endif %}
+
+        <header>
+            <h3>
+                <a href="{% url 'artigo_detail' artigo.pk %}"
+                   style="color:inherit; text-decoration:none;">
+                    {{ artigo.titulo }}
+                </a>
+            </h3>
+            <p style="font-size:0.8rem; color:var(--muted);">
+                por <strong>{{ artigo.autor.username }}</strong>
+                · {{ artigo.data_criacao|date:"d M Y" }}
+            </p>
+        </header>
+
+        <section>
+            <p>{{ artigo.texto|truncatechars:140 }}</p>
+            <br>
+            <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;">
+                <a href="{% url 'artigo_detail' artigo.pk %}" class="badge" style="text-decoration:none;">
+                    Ler artigo
+                </a>
+                <span style="font-size:0.8rem; color:var(--muted);">
+                    ♥ {{ artigo.total_likes }} · 💬 {{ artigo.total_comentarios }}
+                </span>
+            </div>
+        </section>
+    </article>
+
+    {% empty %}
+    <article class="card">
+        <header>
+            <h3>Sem artigos</h3>
+            <p>Ainda não existem artigos publicados.</p>
+        </header>
+    </article>
+    {% endfor %}
+</section>
+
+{% endblock %}

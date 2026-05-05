@@ -1,9 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Licenciatura, Docente, UnidadeCurricular, Tecnologia, Projeto, TFC, Competencia, Formacao, MakingOf
-from .forms import ProjetoForm
-from .forms import LicenciaturaForm
-from .forms import TecnologiaForm, CompetenciaForm, FormacaoForm
-from django.shortcuts import redirect
+from .forms import ProjetoForm, LicenciaturaForm, TecnologiaForm, CompetenciaForm, FormacaoForm
 
 
 def home_view(request):
@@ -53,6 +51,7 @@ def makingof_view(request):
     registos = MakingOf.objects.all()
     return render(request, 'portfolio/makingof.html', {'registos': registos})
 
+@login_required
 def projeto_create(request):
     if request.method == 'POST':
         form = ProjetoForm(request.POST, request.FILES)
@@ -65,6 +64,7 @@ def projeto_create(request):
     return render(request, 'portfolio/projeto_form.html', {'form': form})
 
 
+@login_required
 def projeto_update(request, pk):
     projeto = get_object_or_404(Projeto, pk=pk)
 
@@ -78,6 +78,7 @@ def projeto_update(request, pk):
 
     return render(request, 'portfolio/projeto_form.html', {'form': form})
 
+@login_required
 def projeto_delete(request, pk):
     projeto = get_object_or_404(Projeto, pk=pk)
 
@@ -102,6 +103,7 @@ def licenciatura_detail_view(request, lic_id):
     })
 
 
+@login_required
 def licenciatura_create(request):
     if request.method == 'POST':
         form = LicenciaturaForm(request.POST, request.FILES)
@@ -114,6 +116,7 @@ def licenciatura_create(request):
     return render(request, 'portfolio/licenciatura_form.html', {'form': form})
 
 
+@login_required
 def licenciatura_update(request, pk):
     lic = get_object_or_404(Licenciatura, pk=pk)
 
@@ -128,6 +131,7 @@ def licenciatura_update(request, pk):
     return render(request, 'portfolio/licenciatura_form.html', {'form': form})
 
 
+@login_required
 def licenciatura_delete(request, pk):
     lic = get_object_or_404(Licenciatura, pk=pk)
 
@@ -137,6 +141,7 @@ def licenciatura_delete(request, pk):
 
     return render(request, 'portfolio/licenciatura_confirm_delete.html', {'lic': lic})
 
+@login_required
 def tecnologia_create(request):
     if request.method == 'POST':
         form = TecnologiaForm(request.POST, request.FILES)
@@ -149,6 +154,7 @@ def tecnologia_create(request):
     return render(request, 'portfolio/form_generico.html', {'form': form, 'titulo': 'Tecnologia'})
 
 
+@login_required
 def tecnologia_update(request, pk):
     tecnologia = get_object_or_404(Tecnologia, pk=pk)
 
@@ -163,6 +169,7 @@ def tecnologia_update(request, pk):
     return render(request, 'portfolio/form_generico.html', {'form': form, 'titulo': 'Tecnologia'})
 
 
+@login_required
 def tecnologia_delete(request, pk):
     tecnologia = get_object_or_404(Tecnologia, pk=pk)
 
@@ -177,6 +184,7 @@ def tecnologia_delete(request, pk):
     })
 
 
+@login_required
 def competencia_create(request):
     if request.method == 'POST':
         form = CompetenciaForm(request.POST, request.FILES)
@@ -189,6 +197,7 @@ def competencia_create(request):
     return render(request, 'portfolio/form_generico.html', {'form': form, 'titulo': 'Competência'})
 
 
+@login_required
 def competencia_update(request, pk):
     competencia = get_object_or_404(Competencia, pk=pk)
 
@@ -203,6 +212,7 @@ def competencia_update(request, pk):
     return render(request, 'portfolio/form_generico.html', {'form': form, 'titulo': 'Competência'})
 
 
+@login_required
 def competencia_delete(request, pk):
     competencia = get_object_or_404(Competencia, pk=pk)
 
@@ -217,6 +227,7 @@ def competencia_delete(request, pk):
     })
 
 
+@login_required
 def formacao_create(request):
     if request.method == 'POST':
         form = FormacaoForm(request.POST, request.FILES)
@@ -229,6 +240,7 @@ def formacao_create(request):
     return render(request, 'portfolio/form_generico.html', {'form': form, 'titulo': 'Formação'})
 
 
+@login_required
 def formacao_update(request, pk):
     formacao = get_object_or_404(Formacao, pk=pk)
 
@@ -243,6 +255,7 @@ def formacao_update(request, pk):
     return render(request, 'portfolio/form_generico.html', {'form': form, 'titulo': 'Formação'})
 
 
+@login_required
 def formacao_delete(request, pk):
     formacao = get_object_or_404(Formacao, pk=pk)
 

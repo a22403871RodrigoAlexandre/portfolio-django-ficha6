@@ -1,0 +1,128 @@
+{% extends "portfolio/base.html" %}
+{% load auth_extras %}
+
+{% block content %}
+
+<style>
+    .artigo-meta { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .artigo-body { line-height: 1.8; margin-bottom: 2rem; white-space: pre-wrap; }
+    .artigo-link { display: inline-block; margin-bottom: 1.5rem; }
+
+    .like-section { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; }
+    .like-btn {
+        display: inline-flex; align-items: center; gap: 0.4rem;
+        padding: 0.5rem 1.2rem; border-radius: 8px; border: 1px solid var(--border);
+        background: var(--card); color: var(--text); cursor: pointer;
+        font-size: 0.9rem; font-family: inherit; transition: background 0.2s;
+        text-decoration: none;
+    }
+    .like-btn:hover { background: rgba(59,130,246,0.15); border-color: var(--accent); }
+    .like-btn.liked { background: rgba(239,68,68,0.15); border-color: #ef4444; color: #f87171; }
+    .like-count { font-size: 0.85rem; color: var(--muted); }
+
+    .divider-section { border-top: 1px solid var(--border); margin: 2rem 0 1.5rem; }
+    .section-title { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+
+    .comment-card {
+        background: var(--card); border: 1px solid var(--border);
+        border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 0.8rem;
+    }
+    .comment-author { font-size: 0.8rem; color: var(--accent2); font-weight: 600; margin-bottom: 0.3rem; }
+    .comment-date { font-size: 0.75rem; color: var(--muted); margin-left: 0.5rem; font-weight: 400; }
+    .comment-text { font-size: 0.9rem; line-height: 1.6; }
+
+    .comment-form textarea {
+        width: 100%; padding: 0.8rem 1rem; background: var(--card);
+        border: 1px solid var(--border); border-radius: 8px;
+        color: var(--text); font-family: inherit; font-size: 0.9rem;
+        outline: none; resize: vertical; transition: border-color 0.2s;
+    }
+    .comment-form textarea:focus { border-color: var(--accent); }
+    .comment-form .btn-submit {
+        margin-top: 0.6rem; padding: 0.55rem 1.2rem;
+        background: var(--accent); color: #fff; border: none;
+        border-radius: 8px; font-family: inherit; font-size: 0.9rem;
+        cursor: pointer; transition: opacity 0.2s;
+    }
+    .comment-form .btn-submit:hover { opacity: 0.85; }
+    .login-prompt {
+        font-size: 0.88rem; color: var(--muted);
+        padding: 0.8rem 1rem; background: var(--card);
+        border: 1px solid var(--border); border-radius: 8px;
+    }
+    .login-prompt a { color: var(--accent); text-decoration: none; }
+</style>
+
+<div class="page-header">
+    <div>
+        <h2>{{ artigo.titulo }}<span>.</span></h2>
+        <p class="artigo-meta">
+            por <strong>{{ artigo.autor.username }}</strong>
+            · {{ artigo.data_criacao|date:"d \d\e F \d\e Y" }}
+        </p>
+    </div>
+    <a href="{% url 'artigos_list' %}" class="badge" style="text-decoration:none;">← Artigos</a>
+</div>
+
+{% if artigo.fotografia %}
+<img src="{{ artigo.fotografia.url }}" alt="{{ artigo.titulo }}"
+     style="width:100%; max-height:360px; object-fit:cover; border-radius:12px; margin-bottom:1.5rem;">
+{% endif %}
+
+<div class="artigo-body">{{ artigo.texto }}</div>
+
+{% if artigo.link_externo %}
+<a href="{{ artigo.link_externo }}" target="_blank" rel="noopener" class="badge artigo-link" style="text-decoration:none;">
+    🔗 Saber mais
+</a>
+{% endif %}
+
+{% if pode_editar %}
+<div style="margin-bottom:1.5rem; display:flex; gap:0.6rem;">
+    <a href="{% url 'artigo_update' artigo.pk %}" class="badge" style="text-decoration:none;">✏️ Editar</a>
+    <a href="{% url 'artigo_delete' artigo.pk %}" class="badge" style="text-decoration:none;">🗑️ Apagar</a>
+</div>
+{% endif %}
+
+<!-- LIKES -->
+<div class="like-section">
+    <form method="post" action="{% url 'artigo_like' artigo.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="like-btn {% if user_liked %}liked{% endif %}">
+            {% if user_liked %}♥ Gostei{% else %}♡ Gostar{% endif %}
+        </button>
+    </form>
+    <span class="like-count">{{ total_likes }} gosto{% if total_likes != 1 %}s{% endif %}</span>
+</div>
+
+<!-- COMENTÁRIOS -->
+<div class="divider-section">
+    <p class="section-title">💬 Comentários ({{ comentarios|length }})</p>
+
+    {% for comentario in comentarios %}
+    <div class="comment-card">
+        <p class="comment-author">
+            {{ comentario.autor.username }}
+            <span class="comment-date">{{ comentario.data_criacao|date:"d M Y, H:i" }}</span>
+        </p>
+        <p class="comment-text">{{ comentario.texto }}</p>
+    </div>
+    {% empty %}
+    <p style="color:var(--muted); font-size:0.88rem;">Ainda não há comentários. Sê o primeiro!</p>
+    {% endfor %}
+
+    <br>
+    {% if user.is_authenticated %}
+    <form method="post" class="comment-form">
+        {% csrf_token %}
+        {{ form.texto }}
+        <button type="submit" class="btn-submit">Comentar</button>
+    </form>
+    {% else %}
+    <p class="login-prompt">
+        <a href="{% url 'login' %}?next=/artigos/{{ artigo.pk }}/">Inicia sessão</a> para comentar.
+    </p>
+    {% endif %}
+</div>
+
+{% endblock %}
