@@ -2,9 +2,9 @@ from django.db import models
 
 
 class Licenciatura(models.Model):
-    nome = models.CharField(max_length=200)
+    nome = models.TextField()
     sigla = models.CharField(max_length=20)
-    instituicao = models.CharField(max_length=200)
+    instituicao = models.TextField()
     descricao = models.TextField(blank=True)
     ano_inicio = models.IntegerField()
     ano_fim = models.IntegerField(null=True, blank=True)
@@ -18,7 +18,7 @@ class Licenciatura(models.Model):
 
 
 class Docente(models.Model):
-    nome = models.CharField(max_length=200)
+    nome = models.TextField()
     email = models.EmailField(blank=True)
     url_pagina_lusofona = models.URLField(blank=True)
     linkedin = models.URLField(blank=True)
@@ -80,7 +80,7 @@ class Tecnologia(models.Model):
 
 
 class Projeto(models.Model):
-    titulo = models.CharField(max_length=200)
+    titulo = models.TextField()
     descricao = models.TextField()
     conceitos_aplicados = models.TextField(blank=True)
     url_github = models.URLField(blank=True)
@@ -114,31 +114,26 @@ class TFC(models.Model):
         (4, "Muito Interessante"),
         (5, "Perfeito"),
     ]
-
-    titulo = models.CharField(max_length=300)
-    autor = models.CharField(max_length=200, blank=True)
-    curso = models.CharField(max_length=200, blank=True)
+    titulo = models.TextField()
+    autor = models.TextField(blank=True)
+    curso = models.TextField(blank=True)
     resumo = models.TextField(blank=True)
     rating = models.IntegerField(choices=CLASSIFICACAO_CHOICES, null=True, blank=True)
     orientador = models.ManyToManyField(Docente, blank=True)
     email = models.EmailField(blank=True)
-    palavras_chave = models.CharField(max_length=300, blank=True, null=True)
-    areas = models.CharField(max_length=300, blank=True, null=True)
+    palavras_chave = models.TextField(blank=True, null=True)
+    areas = models.TextField(blank=True, null=True)
     imagem = models.ImageField(upload_to="tfcs/", blank=True, null=True)
-
     tecnologias = models.ManyToManyField(
         Tecnologia, blank=True, related_name="tfcs"
     )
-
     licenciatura = models.ForeignKey(
         Licenciatura,
         on_delete=models.CASCADE,
         related_name="tfcs"
     )
-
     def __str__(self):
         return self.titulo
-
     class Meta:
         verbose_name_plural = "TFCs"
 
@@ -192,7 +187,7 @@ class MakingOf(models.Model):
     ]
 
     entidade = models.CharField(max_length=30, choices=ENTIDADE_CHOICES)
-    titulo = models.CharField(max_length=200)
+    titulo = models.TextField()
     data = models.DateField(auto_now_add=True)
     descricao_decisoes = models.TextField()
     erros_encontrados = models.TextField(blank=True)
